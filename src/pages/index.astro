@@ -1,42 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Lanyard from "../components/Lanyard.jsx";
-import Threads from "../components/Threads.jsx";
 ---
 
 <Layout>
-	<!-- Layar utama: kasih background hitam biar warna Threads dan Lanyard makin nyala -->
 	<main class="relative w-full h-screen bg-black overflow-hidden">
-		<!-- LAPIS 1 (BACKGROUND): Komponen Threads -->
-		<!-- z-0 naruh dia di posisi paling belakang -->
-		<div class="absolute inset-0 z-0">
-			<!-- Kita aktifin enableMouseInteraction biar garisnya gerak ngikutin kursor -->
-			<Threads
-				client:only="react"
-				amplitude={1}
-				distance={0}
-				enableMouseInteraction={true}
-				color={[0.4, 0.4, 0.4]}
-			/>
-		</div>
-
-		<!-- LAPIS 2 (TEKS/UI): Teks pemanis -->
-		<!-- pointer-events-none penting biar area ini ga ngeblok sentuhan mouse ke belakangnya -->
-		<div
-			class="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none drop-shadow-2xl"
-		>
-			<h1
-				class="text-white text-5xl md:text-7xl font-extrabold tracking-tight z-10"
-			>
-				Tactical Uniform
-			</h1>
-			<p class="text-zinc-400 mt-4 text-lg">
-				Bordir 3D Custom Presisi Tinggi
-			</p>
-		</div>
-
-		<!-- LAPIS 3 (FOREGROUND): Komponen Lanyard -->
-		<!-- z-20 bikin dia ada di lapisan paling atas buat ditarik-tarik -->
+		<!-- Lanyard -->
 		<div class="absolute inset-0 z-20 cursor-grab active:cursor-grabbing">
 			<Lanyard
 				client:only="react"
