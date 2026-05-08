@@ -1,0 +1,102 @@
+---
+// Navbar.astro
+---
+
+<!-- Added padding top & horizontal, changed rounded corners -->
+<header id="navbar" class="fixed top-2 left-2 right-2 md:top-4 md:left-8 md:right-8 z-50 transition-transform duration-300">
+  <div class="max-w-4xl mx-auto w-full relative">
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl shadow-lg"></div>
+    <div class="relative px-4 py-2 md:px-8 md:py-5 flex items-center justify-between rounded-2xl">
+      <!-- Logo -->
+      <a href="#" class="text-white text-xl md:text-2xl font-bold tracking-tighter hover:text-zinc-300 transition-colors">
+        Rey<span class="text-zinc-500">.</span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="#" class="text-sm font-medium text-zinc-300 hover:text-white transition-colors">Beranda</a>
+        <a href="#karya" class="text-sm font-medium text-zinc-300 hover:text-white transition-colors">Karya Saya</a>
+        <a href="#tentang" class="text-sm font-medium text-zinc-300 hover:text-white transition-colors">Tentang</a>
+        <a href="#kontak" class="text-sm font-medium text-zinc-300 hover:text-white transition-colors">Kontak</a>
+      </nav>
+
+      <!-- Mobile Menu Button (Hamburger) -->
+      <button id="mobile-menu-btn" class="md:hidden text-white p-2 focus:outline-none">
+        <!-- Icon Hamburger -->
+        <svg id="icon-menu" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="block">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <!-- Icon Close (X) -->
+        <svg id="icon-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu Panel -->
+    <div id="mobile-menu" class="hidden md:hidden absolute top-[calc(100%+0.5rem)] left-0 w-full bg-black/90 backdrop-blur-lg border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
+      <nav class="flex flex-col p-6 gap-6 text-center">
+        <a href="#" class="mobile-link text-lg font-medium text-zinc-300 hover:text-white transition-colors">Beranda</a>
+        <a href="#karya" class="mobile-link text-lg font-medium text-zinc-300 hover:text-white transition-colors">Karya Saya</a>
+        <a href="#tentang" class="mobile-link text-lg font-medium text-zinc-300 hover:text-white transition-colors">Tentang</a>
+        <a href="#kontak" class="mobile-link text-lg font-medium text-zinc-300 hover:text-white transition-colors">Kontak</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Script untuk menangani toggle menu mobile & scroll behaviour
+  const setupNavbar = () => {
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    const iconMenu = document.getElementById('icon-menu');
+    const iconClose = document.getElementById('icon-close');
+    const links = document.querySelectorAll('.mobile-link');
+    const navbar = document.getElementById('navbar');
+
+    if (!btn || !menu || !navbar) return;
+
+    // --- Logic Toggle Menu Mobile ---
+    const toggleMenu = () => {
+      menu.classList.toggle('hidden');
+      iconMenu?.classList.toggle('hidden');
+      iconClose?.classList.toggle('hidden');
+      iconMenu?.classList.toggle('block');
+      iconClose?.classList.toggle('block');
+    };
+
+    btn.addEventListener('click', toggleMenu);
+
+    links.forEach(link => {
+      link.addEventListener('click', toggleMenu);
+    });
+
+    // --- Logic Scroll Hide/Show Navbar ---
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Jika scroll ke bawah lebih dari 50px, sembunyikan (slide up)
+      if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        // Karena ada top-4, sembunyikan dengan translate-y lebih besar ke negatif
+        navbar.classList.add('-translate-y-[150%]');
+      } 
+      // Jika scroll ke atas, munculkan kembali
+      else if (currentScrollY < lastScrollY) {
+        navbar.classList.remove('-translate-y-[150%]');
+      }
+
+      lastScrollY = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+  };
+
+  setupNavbar();
+  document.addEventListener('astro:page-load', setupNavbar);
+</script>
