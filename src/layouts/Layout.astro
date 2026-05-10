@@ -1,28 +1,35 @@
 ---
-import '../styles/global.css';
-import Navbar from '../components/Navbar.astro';
+import "../styles/global.css";
+import Navbar from "../components/Navbar.astro";
 
 interface Props {
 	title?: string;
 	description?: string;
+	image?: string;
 }
 
-const { 
-	title = "Rey | Web Developer Portfolio", 
-	description = "Portofolio pribadi Rey. Menampilkan karya dan eksperimen web interaktif." 
+const {
+	title = "Virman Adipura | Editor Video & Junior Meta Ads",
+	description = "Portofolio pribadi Virman Adipura. Editor video, kreator konten, dan digital enthusiast dari Tasikmalaya.",
+	image = "/og-image.webp"
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || Astro.url);
+const imageUrl = new URL(image, Astro.site || Astro.url);
 ---
+
 <!doctype html>
 <html lang="id">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
+		<link rel="manifest" href="/favicon/site.webmanifest" />
+		<link rel="icon" href="/favicon/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		
+
 		<!-- Primary Meta Tags -->
 		<title>{title}</title>
 		<meta name="title" content={title} />
@@ -34,12 +41,14 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || Astro.url);
 		<meta property="og:url" content={canonicalURL} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
+		<meta property="og:image" content={imageUrl} />
 
 		<!-- Twitter -->
 		<meta property="twitter:card" content="summary_large_image" />
 		<meta property="twitter:url" content={canonicalURL} />
 		<meta property="twitter:title" content={title} />
 		<meta property="twitter:description" content={description} />
+		<meta property="twitter:image" content={imageUrl} />
 	</head>
 	<body>
 		<Navbar />

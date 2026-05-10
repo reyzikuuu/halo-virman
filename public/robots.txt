@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://halovirman.my.id/sitemap-index.xml
