@@ -130,8 +130,8 @@
     width: 100%;
     height: 100%;
     /* CSS filter is compositor-thread (GPU), NOT software per-pixel */
-    filter: blur(22px);
-    opacity: 0.9;
+    filter: blur(12px);
+    opacity: 0.7;
     will-change: opacity;
   }
 
@@ -333,9 +333,10 @@
     // ── MAIN LOOP with visibility pause ───────────────────────────────────
     let animId: number;
     let paused = false;
+    let isIntersecting = true;
 
     function loop() {
-      if (!paused) {
+      if (!paused && isIntersecting) {
         drawRays();
         drawParticles();
       }
@@ -345,6 +346,14 @@
     document.addEventListener('visibilitychange', () => {
       paused = document.hidden;
     });
+
+    // Pause when scrolled out of view to save GPU
+    const observer = new IntersectionObserver((entries) => {
+      isIntersecting = entries[0].isIntersecting;
+    }, { threshold: 0 });
+    
+    const rootEl = document.querySelector('.aurora-root');
+    if (rootEl) observer.observe(rootEl);
 
     buildRays();
     buildParticles();
