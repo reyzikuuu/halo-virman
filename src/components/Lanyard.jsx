@@ -8,6 +8,10 @@ export default function Lanyard(props) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // Determine if mobile for a longer delay
+    const isMobile = window.innerWidth < 768;
+    const delay = isMobile ? 3000 : 100;
+
     // Delay loading the heavy 3D model until the browser is idle
     // This prevents blocking the main thread during initial page load
     const timeoutId = setTimeout(() => {
@@ -16,7 +20,7 @@ export default function Lanyard(props) {
       } else {
         setMounted(true);
       }
-    }, 100);
+    }, delay);
 
     return () => clearTimeout(timeoutId);
   }, []);

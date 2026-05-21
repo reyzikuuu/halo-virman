@@ -29,12 +29,16 @@ export default function LanyardModel({ position = [0, 0, 30], gravity = [0, -40,
       <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
         <Band isMobile={isMobile} />
       </Physics>
-      <Environment frames={1} resolution={256} blur={0.75}>
-        <Lightformer intensity={2} color="white" position={[0, -1, 5]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
-        <Lightformer intensity={3} color="white" position={[-1, -1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
-        <Lightformer intensity={3} color="white" position={[1, 1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
-        <Lightformer intensity={10} color="white" position={[-10, 0, 14]} rotation={[0, Math.PI / 2, Math.PI / 3]} scale={[100, 10, 1]} />
-      </Environment>
+      {isMobile ? (
+        <directionalLight position={[0, 10, 5]} intensity={2} />
+      ) : (
+        <Environment frames={1} resolution={256} blur={0.75}>
+          <Lightformer intensity={2} color="white" position={[0, -1, 5]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
+          <Lightformer intensity={3} color="white" position={[-1, -1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
+          <Lightformer intensity={3} color="white" position={[1, 1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
+          <Lightformer intensity={10} color="white" position={[-10, 0, 14]} rotation={[0, Math.PI / 2, Math.PI / 3]} scale={[100, 10, 1]} />
+        </Environment>
+      )}
     </Canvas>
   );
 }
@@ -134,14 +138,22 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }) {
             )}
           >
             <mesh geometry={nodes.card.geometry}>
-              <meshPhysicalMaterial
-                map={materials.base.map}
-                map-anisotropy={4}
-                clearcoat={isMobile ? 0 : 1}
-                clearcoatRoughness={0.15}
-                roughness={0.9}
-                metalness={0.8}
-              />
+              {isMobile ? (
+                <meshStandardMaterial 
+                  map={materials.base.map} 
+                  roughness={0.9} 
+                  metalness={0.8} 
+                />
+              ) : (
+                <meshPhysicalMaterial
+                  map={materials.base.map}
+                  map-anisotropy={4}
+                  clearcoat={1}
+                  clearcoatRoughness={0.15}
+                  roughness={0.9}
+                  metalness={0.8}
+                />
+              )}
             </mesh>
             <mesh geometry={nodes.clip.geometry} material={materials.metal} material-roughness={0.3} />
             <mesh geometry={nodes.clamp.geometry} material={materials.metal} />
