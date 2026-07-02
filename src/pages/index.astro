@@ -329,7 +329,6 @@ import AuroraBackground from "../components/AuroraBackground.astro";
 			}
 		}
 
-
 		/* ===== STATUS BADGE ===== */
 		.status-badge {
 			display: inline-flex;
@@ -504,15 +503,15 @@ import AuroraBackground from "../components/AuroraBackground.astro";
 			border-radius: 9999px;
 			padding: 1px; /* Thinner, modern border */
 			background: linear-gradient(
-				90deg, 
-				rgba(255, 255, 255, 0.1), 
-				rgba(255, 255, 255, 0.6), 
+				90deg,
+				rgba(255, 255, 255, 0.1),
+				rgba(255, 255, 255, 0.6),
 				rgba(129, 140, 248, 0.8),
 				rgba(255, 255, 255, 0.1)
 			);
 			background-size: 200% 100%;
-			-webkit-mask: 
-				linear-gradient(#fff 0 0) content-box, 
+			-webkit-mask:
+				linear-gradient(#fff 0 0) content-box,
 				linear-gradient(#fff 0 0);
 			-webkit-mask-composite: xor;
 			mask-composite: exclude;
@@ -527,8 +526,12 @@ import AuroraBackground from "../components/AuroraBackground.astro";
 		}
 
 		@keyframes shimmerBorder {
-			0% { background-position: 100% 0; }
-			100% { background-position: -100% 0; }
+			0% {
+				background-position: 100% 0;
+			}
+			100% {
+				background-position: -100% 0;
+			}
 		}
 
 		.btn-whatsapp {
@@ -556,15 +559,15 @@ import AuroraBackground from "../components/AuroraBackground.astro";
 			border-radius: 9999px;
 			padding: 1px;
 			background: linear-gradient(
-				90deg, 
-				rgba(255, 255, 255, 0.1), 
-				rgba(255, 255, 255, 0.6), 
+				90deg,
+				rgba(255, 255, 255, 0.1),
+				rgba(255, 255, 255, 0.6),
 				rgba(37, 211, 102, 0.8),
 				rgba(255, 255, 255, 0.1)
 			);
 			background-size: 200% 100%;
-			-webkit-mask: 
-				linear-gradient(#fff 0 0) content-box, 
+			-webkit-mask:
+				linear-gradient(#fff 0 0) content-box,
 				linear-gradient(#fff 0 0);
 			-webkit-mask-composite: xor;
 			mask-composite: exclude;
@@ -738,7 +741,6 @@ import AuroraBackground from "../components/AuroraBackground.astro";
 			}
 		}
 	</style>
-
 
 	<!-- ===== FOOTER STYLES ===== -->
 	<style>
