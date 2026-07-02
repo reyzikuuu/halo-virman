@@ -14,6 +14,16 @@ import AuroraBackground from "../components/AuroraBackground.astro";
 
 		<!-- Hero Section: Two-Column Layout -->
 		<div class="hero-container">
+			<!-- Mobile Hero Image -->
+			<div class="mobile-hero-wrapper">
+				<img
+					src="/lanyard-hero-mobile.webp"
+					alt="Hero Illustration"
+					class="mobile-hero-image"
+					aria-hidden="true"
+				/>
+			</div>
+
 			<!-- LEFT: Hero Text Content -->
 			<div class="hero-left">
 				<!-- Status Badge -->
@@ -208,6 +218,17 @@ import AuroraBackground from "../components/AuroraBackground.astro";
 						>
 					</a>
 				</div>
+			</div>
+
+			<!-- RIGHT: Hero Image Desktop -->
+			<div class="hero-right">
+				<img
+					src="/lanyard-hero-desktop.webp"
+					alt="Hero Illustration Desktop"
+					class="desktop-hero-image"
+					aria-hidden="true"
+					loading="lazy"
+				/>
 			</div>
 		</div>
 
@@ -605,6 +626,62 @@ import AuroraBackground from "../components/AuroraBackground.astro";
 			transform: translateY(-2px) scale(1.15);
 		}
 
+		/* ===== MOBILE HERO IMAGE ===== */
+		.mobile-hero-wrapper {
+			display: flex !important;
+			width: 100%;
+			flex: 1;
+			align-items: flex-start;
+			justify-content: center;
+			pointer-events: none;
+			margin-top: -2rem; /* Geser sedikit ke atas jika diperlukan */
+		}
+
+		.mobile-hero-image {
+			width: 100%;
+			max-width: 420px; /* Diperkecil dari 500px */
+			max-height: 55vh; /* Diperkecil dari 65vh */
+			object-fit: contain;
+			object-position: top center;
+			margin-left: 7rem; /* ⬅️ Geser Kiri (contoh: -2rem) / Geser Kanan (contoh: 2rem) */
+			animation: slideDownFade 0.7s ease-out both;
+		}
+
+		@media (min-width: 1024px) {
+			.mobile-hero-wrapper {
+				display: none !important;
+			}
+		}
+
+		/* ===== DESKTOP HERO IMAGE ===== */
+		.hero-right {
+			display: none;
+			flex: 1;
+			align-items: center;
+			justify-content: center;
+			pointer-events: none;
+			animation: slideInRight 0.8s ease-out 0.3s both;
+		}
+
+		.desktop-hero-image {
+			width: 100%;
+			max-width: 600px; /* Batas maksimal bawaan */
+			max-height: 100vh;
+			object-fit: contain;
+			margin-top: -10rem;
+			margin-left: 0;
+			transform: scale(
+				2
+			); /* ⬅️ SCALE BEBAS: Ubah nilai 1 jadi 1.2 (lebih besar 20%), 1.5, atau 0.8 (lebih kecil) */
+			transform-origin: center; /* Titik pusat pembesaran */
+		}
+
+		@media (min-width: 1024px) {
+			.hero-right {
+				display: flex;
+			}
+		}
+
 		/* ===== SCROLL INDICATOR ===== */
 		.scroll-indicator {
 			position: absolute;
@@ -653,6 +730,28 @@ import AuroraBackground from "../components/AuroraBackground.astro";
 			to {
 				opacity: 1;
 				transform: translateY(0);
+			}
+		}
+
+		@keyframes slideDownFade {
+			from {
+				opacity: 0;
+				transform: translateY(-40px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		@keyframes slideInRight {
+			from {
+				opacity: 0;
+				transform: translateX(40px);
+			}
+			to {
+				opacity: 1;
+				transform: translateX(0);
 			}
 		}
 
