@@ -820,6 +820,7 @@ import AuroraBackground from "../components/AuroraBackground.astro";
 			justify-content: center;
 			pointer-events: none;
 			margin-top: -2rem; /* Geser sedikit ke atas jika diperlukan */
+			animation: slideDownFade 0.7s ease-out both;
 		}
 
 		.mobile-hero-image {
@@ -829,8 +830,15 @@ import AuroraBackground from "../components/AuroraBackground.astro";
 			object-fit: contain;
 			object-position: top center;
 			margin-left: 7rem; /* ⬅️ Geser Kiri (contoh: -2rem) / Geser Kanan (contoh: 2rem) */
-			animation: slideDownFade 0.7s ease-out both;
+			animation: swingImage 3s ease-in-out infinite alternate;
+			transform-origin: top center;
 		}
+
+		@keyframes swingImage {
+			0% { transform: rotate(-7.5deg); }
+			100% { transform: rotate(7.5deg); }
+		}
+
 
 		@media (min-width: 1024px) {
 			.mobile-hero-wrapper {
