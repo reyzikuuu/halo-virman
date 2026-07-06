@@ -1,0 +1,179 @@
+---
+---
+<!-- Scroll Indicator -->
+		<div class="scroll-indicator">
+			<div class="scroll-mouse">
+				<div class="scroll-wheel"></div>
+			</div>
+			<span class="scroll-text">Scroll ke bawah</span>
+		</div>
+
+<style is:global>
+/* ===== SCROLL INDICATOR ===== */
+		.scroll-indicator {
+			position: absolute;
+			bottom: 2rem;
+			left: 50%;
+			transform: translateX(-50%);
+			z-index: 30;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 0.5rem;
+			animation: fadeInUp 0.6s ease-out 1s both;
+		}
+
+		.scroll-mouse {
+			width: 24px;
+			height: 38px;
+			border: 2px solid rgba(255, 255, 255, 0.2);
+			border-radius: 12px;
+			display: flex;
+			justify-content: center;
+			padding-top: 6px;
+		}
+
+		.scroll-wheel {
+			width: 3px;
+			height: 8px;
+			background: rgba(255, 255, 255, 0.5);
+			border-radius: 2px;
+			animation: scroll-bounce 2s ease-in-out infinite;
+		}
+
+		.scroll-text {
+			font-size: 0.65rem;
+			text-transform: uppercase;
+			letter-spacing: 0.15em;
+			color: rgba(255, 255, 255, 0.65);
+		}
+
+		/* ===== ANIMATIONS ===== */
+		@keyframes fadeInUp {
+			from {
+				opacity: 0;
+				transform: translateY(20px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		@keyframes slideDownFade {
+			from {
+				opacity: 0;
+				transform: translateY(-40px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		@keyframes slideInRight {
+			from {
+				opacity: 0;
+				transform: translateX(40px);
+			}
+			to {
+				opacity: 1;
+				transform: translateX(0);
+			}
+		}
+
+		@keyframes heroFloat {
+			0%,
+			100% {
+				transform: scale(2) translateY(0px);
+			}
+			50% {
+				transform: scale(2) translateY(-18px);
+			}
+		}
+
+		@keyframes pulse-dot {
+			0%,
+			100% {
+				opacity: 1;
+				box-shadow:
+					0 0 8px #34d399,
+					0 0 16px rgba(52, 211, 153, 0.3);
+			}
+			50% {
+				opacity: 0.6;
+				box-shadow:
+					0 0 4px #34d399,
+					0 0 8px rgba(52, 211, 153, 0.15);
+			}
+		}
+
+		@keyframes scroll-bounce {
+			0%,
+			100% {
+				transform: translateY(0);
+				opacity: 1;
+			}
+			50% {
+				transform: translateY(6px);
+				opacity: 0.3;
+			}
+		}
+
+		/* ===== MOBILE ADJUSTMENTS ===== */
+		@media (max-width: 1023px) {
+			.hero-name {
+				font-size: clamp(2.2rem, 9vw, 3.2rem);
+			}
+
+			.hero-greeting {
+				font-size: 1rem;
+			}
+
+			.hero-role {
+				font-size: 0.95rem;
+			}
+
+			.hero-description {
+				font-size: 0.85rem;
+				line-height: 1.5;
+			}
+
+			.tech-label {
+				font-size: 0.65rem;
+			}
+
+			.tech-icon {
+				width: 24px;
+				height: 24px;
+			}
+
+			.btn-primary,
+			.btn-whatsapp {
+				padding: 0.6rem 1.2rem;
+				font-size: 0.85rem;
+			}
+
+			.social-icon svg {
+				width: 18px;
+				height: 18px;
+			}
+
+			.scroll-indicator {
+				display: none;
+			}
+		}
+
+		@media (max-width: 480px) {
+			.hero-cta {
+				flex-direction: column;
+				width: 100%;
+			}
+
+			.btn-primary,
+			.btn-whatsapp {
+				width: 100%;
+				justify-content: center;
+			}
+		}
+</style>
