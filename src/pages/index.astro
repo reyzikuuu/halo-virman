@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import AuroraBackground from "../components/AuroraBackground.astro";
 import HeroSection from "../components/HeroSection.astro";
+import VideoMarquee from "../components/VideoMarquee";
 import ScrollIndicator from "../components/ScrollIndicator.astro";
 import InfoModal from "../components/InfoModal.astro";
 import Footer from "../components/Footer.astro";
@@ -11,12 +12,13 @@ import Footer from "../components/Footer.astro";
 	title="Virman Adipura | Junior Video Editor & Meta Advertiser"
 	description="Official Website Portofolio CV Virman Adipura. Junior editor video, junior meta advertiser & digital enthusiast dari Tasikmalaya."
 >
-	<main
-		class="relative w-full min-h-screen bg-black overflow-hidden font-sans"
-	>
-		<AuroraBackground />
-		<HeroSection />
-		<ScrollIndicator />
+	<main class="relative w-full min-h-screen bg-black overflow-hidden font-sans">
+		<div class="relative w-full h-screen">
+			<AuroraBackground />
+			<HeroSection />
+			<ScrollIndicator />
+		</div>
+		<VideoMarquee client:load />
 		<InfoModal />
 	</main>
 	<Footer />

@@ -1,0 +1,146 @@
+[
+  {
+    "id": "1",
+    "title": "Meta Ads Campaign 1",
+    "src": {
+      "mobile": {
+        "mp4": "https://cdn.halovirman.my.id/mp4%20480p/mobile-1.mp4",
+        "webm": "https://cdn.halovirman.my.id/Webm%20480p/mobile-1.webm"
+      },
+      "desktop": {
+        "mp4": "https://cdn.halovirman.my.id/mp4%20720p/desktop-1.mp4",
+        "webm": "https://cdn.halovirman.my.id/webm%20720p/desktop-1.webm"
+      }
+    },
+    "poster": "https://cdn.halovirman.my.id/thumbnail/webp/thumbnail-1.webp",
+    "orientation": "portrait"
+  },
+  {
+    "id": "2",
+    "title": "Video Editing Portfolio 1",
+    "src": {
+      "mobile": {
+        "mp4": "https://cdn.halovirman.my.id/mp4%20480p/mobile-2.mp4",
+        "webm": "https://cdn.halovirman.my.id/Webm%20480p/mobile-2.webm"
+      },
+      "desktop": {
+        "mp4": "https://cdn.halovirman.my.id/mp4%20720p/desktop-2.mp4",
+        "webm": "https://cdn.halovirman.my.id/webm%20720p/desktop-2.webm"
+      }
+    },
+    "poster": "https://cdn.halovirman.my.id/thumbnail/webp/thumbnail-2.webp",
+    "orientation": "portrait"
+  },
+  {
+    "id": "3",
+    "title": "Product Promo",
+    "src": {
+      "mobile": {
+        "mp4": "https://cdn.halovirman.my.id/mp4%20480p/mobile-3.mp4",
+        "webm": "https://cdn.halovirman.my.id/Webm%20480p/mobile-3.webm"
+      },
+      "desktop": {
+        "mp4": "https://cdn.halovirman.my.id/mp4%20720p/desktop-3.mp4",
+        "webm": "https://cdn.halovirman.my.id/webm%20720p/desktop-3.webm"
+      }
+    },
+    "poster": "https://cdn.halovirman.my.id/thumbnail/webp/thumbnail-3.webp",
+    "orientation": "portrait"
+  },
+  {
+    "id": "4",
+    "title": "Social Media Teaser",
+    "src": {
+      "mobile": {
+        "mp4": "https://cdn.halovirman.my.id/mp4%20480p/mobile-4.mp4",
+        "webm": "https://cdn.halovirman.my.id/Webm%20480p/mobile-4.webm"
+      },
+      "desktop": {
+        "mp4": "https://cdn.halovirman.my.id/mp4%20720p/desktop-4.mp4",
+        "webm": "https://cdn.halovirman.my.id/webm%20720p/desktop-4.webm"
+      }
+    },
+    "poster": "https://cdn.halovirman.my.id/thumbnail/webp/thumbnail-4.webp",
+    "orientation": "portrait"
+  },
+  {
+    "id": "5",
+    "title": "Event Highlight",
+    "src": {
+      "mobile": {
+        "mp4": "https://cdn.halovirman.my.id/mp4%20480p/mobile-5.mp4",
+        "webm": "https://cdn.halovirman.my.id/Webm%20480p/mobile-5.webm"
+      },
+      "desktop": {
+        "mp4": "https://cdn.halovirman.my.id/mp4%20720p/desktop-5.mp4",
+        "webm": "https://cdn.halovirman.my.id/webm%20720p/desktop-5.webm"
+      }
+    },
+    "poster": "https://cdn.halovirman.my.id/thumbnail/webp/thumbnail-5.webp",
+    "orientation": "portrait"
+  },
+  {
+    "id": "6",
+    "title": "Event Highlight",
+    "src": {
+      "mobile": {
+        "mp4": "https://cdn.halovirman.my.id/mp4%20480p/mobile-6.mp4",
+        "webm": "https://cdn.halovirman.my.id/Webm%20480p/mobile-6.webm"
+      },
+      "desktop": {
+        "mp4": "https://cdn.halovirman.my.id/mp4%20720p/desktop-6.mp4",
+        "webm": "https://cdn.halovirman.my.id/webm%20720p/desktop-6.webm"
+      }
+    },
+    "poster": "https://cdn.halovirman.my.id/thumbnail/webp/thumbnail-6.webp",
+    "orientation": "portrait"
+  },
+  {
+    "id": "7",
+    "title": "Event Highlight",
+    "src": {
+      "mobile": {
+        "mp4": "https://cdn.halovirman.my.id/mp4%20480p/mobile-7.mp4",
+        "webm": "https://cdn.halovirman.my.id/Webm%20480p/mobile-7.webm"
+      },
+      "desktop": {
+        "mp4": "https://cdn.halovirman.my.id/mp4%20720p/desktop-7.mp4",
+        "webm": "https://cdn.halovirman.my.id/webm%20720p/desktop-7.webm"
+      }
+    },
+    "poster": "https://cdn.halovirman.my.id/thumbnail/webp/thumbnail-7.webp",
+    "orientation": "portrait"
+  },
+  {
+    "id": "8",
+    "title": "Event Highlight",
+    "src": {
+      "mobile": {
+        "mp4": "https://cdn.halovirman.my.id/mp4%20480p/mobile-8.mp4",
+        "webm": "https://cdn.halovirman.my.id/Webm%20480p/mobile-8.webm"
+      },
+      "desktop": {
+        "mp4": "https://cdn.halovirman.my.id/mp4%20720p/desktop-8.mp4",
+        "webm": "https://cdn.halovirman.my.id/webm%20720p/desktop-8.webm"
+      }
+    },
+    "poster": "https://cdn.halovirman.my.id/thumbnail/webp/thumbnail-8.webp",
+    "orientation": "portrait"
+  },
+  {
+    "id": "9",
+    "title": "Event Highlight",
+    "src": {
+      "mobile": {
+        "mp4": "https://cdn.halovirman.my.id/mp4%20480p/mobile-9.mp4",
+        "webm": "https://cdn.halovirman.my.id/Webm%20480p/mobile-9.webm"
+      },
+      "desktop": {
+        "mp4": "https://cdn.halovirman.my.id/mp4%20720p/desktop-9.mp4",
+        "webm": "https://cdn.halovirman.my.id/webm%20720p/desktop-9.webm"
+      }
+    },
+    "poster": "https://cdn.halovirman.my.id/thumbnail/webp/thumbnail-9.webp",
+    "orientation": "portrait"
+  }
+]
