@@ -1,9 +1,37 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import videosData from '../data/videos.json';
 
 export default function VideoMarquee() {
   // We duplicate the array to create a seamless infinite loop
   const duplicatedVideos = [...videosData, ...videosData, ...videosData];
+  const marqueeRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!marqueeRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const video = entry.target as HTMLVideoElement;
+          if (entry.isIntersecting) {
+            video.play().catch((err) => console.warn('Video play failed:', err));
+          } else {
+            video.pause();
+          }
+        });
+      },
+      {
+        root: null, // viewport
+        rootMargin: '100px', // Start playing slightly before entering screen
+        threshold: 0.1,
+      }
+    );
+
+    const videos = marqueeRef.current.querySelectorAll('video');
+    videos.forEach((video) => observer.observe(video));
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section className="relative w-full pt-0 md:pt-16 pb-20 overflow-hidden bg-black flex flex-col justify-center border-y border-white/10 -mt-2 md:mt-0">
@@ -18,7 +46,7 @@ export default function VideoMarquee() {
         </p>
       </div>
 
-      <div className="flex w-fit animate-marquee hover:paused">
+      <div ref={marqueeRef} className="flex w-fit animate-marquee hover:paused">
         {duplicatedVideos.map((video, index) => (
           <div
             key={`${video.id}-${index}`}
@@ -28,20 +56,20 @@ export default function VideoMarquee() {
             <img 
               src={video.poster} 
               alt={video.title} 
-              className="absolute inset-0 w-full h-full object-cover z-0 transition-opacity duration-500 group-hover:opacity-0" 
+              className="absolute inset-0 w-full h-full object-cover z-0" 
             />
             
             {/* Video Element */}
             <video
-              className="absolute inset-0 w-full h-full object-cover z-10 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+              className="absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-500"
+              style={{ opacity: 0 }}
               muted
               loop
               playsInline
-              preload="none"
-              onMouseEnter={(e) => e.currentTarget.play()}
-              onMouseLeave={(e) => {
-                e.currentTarget.pause();
-                e.currentTarget.currentTime = 0;
+              preload="metadata"
+              poster={video.poster}
+              onPlaying={(e) => {
+                e.currentTarget.style.opacity = '1';
               }}
             >
               {/* Mobile WebM & MP4 (Max width 768px) */}
@@ -54,10 +82,10 @@ export default function VideoMarquee() {
             </video>
             
             {/* Overlay Gradient for Text */}
-            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
             
             {/* Title */}
-            <div className="absolute bottom-0 left-0 right-0 p-6 z-30 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+            <div className="absolute bottom-0 left-0 right-0 p-6 z-30 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
               <h3 className="text-white font-semibold text-lg">{video.title}</h3>
             </div>
           </div>
