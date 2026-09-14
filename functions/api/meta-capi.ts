@@ -23,6 +23,7 @@ interface CAPIRequestBody {
   fbp?: string | null;
   fbc?: string | null;
   fbclid?: string | null;
+  testEventCode?: string | null;
   customData?: Record<string, unknown>;
   userData?: {
     email?: string;
@@ -182,10 +183,19 @@ export const onRequestPost = async (context: { request: Request; env: Env }) => 
 
     const capiUrl = `https://graph.facebook.com/${META_API_VERSION}/${META_PIXEL_ID}/events?access_token=${META_ACCESS_TOKEN}`;
 
+    const requestPayload: Record<string, unknown> = {
+      data: [eventPayload],
+    };
+
+    const testEventCode = body.testEventCode || (env as any).META_TEST_EVENT_CODE;
+    if (testEventCode) {
+      requestPayload.test_event_code = testEventCode;
+    }
+
     const metaResponse = await fetch(capiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ data: [eventPayload] }),
+      body: JSON.stringify(requestPayload),
     });
 
     const metaResult = await metaResponse.json();

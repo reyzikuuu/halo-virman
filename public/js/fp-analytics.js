@@ -214,6 +214,17 @@
         customData: params || {}
       };
 
+      // Check test_event_code from URL or sessionStorage (untuk Meta Test Events)
+      var testCode = getUrlParam('test_event_code');
+      if (testCode) {
+        try { w.sessionStorage.setItem('_meta_test_code', testCode); } catch (e) {}
+      } else {
+        try { testCode = w.sessionStorage.getItem('_meta_test_code'); } catch (e) {}
+      }
+      if (testCode) {
+        payload.testEventCode = testCode;
+      }
+
       // Tambahkan user data jika ada (email, phone, dll)
       if (userData) {
         payload.userData = userData;
