@@ -66,8 +66,33 @@ const imageUrl = new URL(image, Astro.site || Astro.url);
 				"https://www.instagram.com/virmanadipuraaa_/"
 			]
 		})} />
+
+		<!-- Google Tag Manager -->
+		<script is:inline>
+			(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+			new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+			})(window,document,'script','dataLayer','GTM-PNZZSCTH');
+		</script>
+		<!-- End Google Tag Manager -->
+
+		<!-- First-Party Analytics (Anti Ad-Block Meta Pixel) -->
+		<script is:inline src="/js/fp-analytics.js" defer data-type="analytics"></script>
+		<noscript>
+			<img height="1" width="1" style="display:none"
+				src="https://www.facebook.com/tr?id=1055596653921923&ev=PageView&noscript=1" />
+		</noscript>
+		<!-- End First-Party Analytics -->
 	</head>
 	<body>
+		<!-- Google Tag Manager (noscript) -->
+		<noscript>
+			<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PNZZSCTH"
+				height="0" width="0" style="display:none;visibility:hidden"></iframe>
+		</noscript>
+		<!-- End Google Tag Manager (noscript) -->
+
 		<Navbar />
 		<slot />
 	</body>
