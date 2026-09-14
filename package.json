@@ -12,7 +12,6 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^14.3.1",
     "@astrojs/react": "^6.0.0",
     "@astrojs/sitemap": "^3.7.3",
     "@fontsource-variable/geist": "^5.2.8",
