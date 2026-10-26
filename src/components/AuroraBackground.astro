@@ -45,7 +45,7 @@
     inset: 0;
     background: radial-gradient(
       ellipse 100% 60% at 50% -5%,
-      #1a0a3a 0%, #0b0618 35%, #050310 60%, #02020a 100%
+      #1a1a1a 0%, #0e0e0e 35%, #080808 60%, #030303 100%
     );
   }
 
@@ -59,8 +59,8 @@
     height: 38vw;
     background: radial-gradient(
       circle,
-      rgba(150, 90, 255, 0.45) 0%,
-      rgba(100, 50, 210, 0.18) 40%,
+      rgba(180, 180, 180, 0.35) 0%,
+      rgba(120, 120, 120, 0.14) 40%,
       transparent 70%
     );
     border-radius: 50%;
@@ -86,19 +86,19 @@
   .orb-1 {
     width: 60vw; height: 40vw;
     top: -20%; left: -5%;
-    background: radial-gradient(circle, rgba(110, 50, 220, 0.22) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(160, 160, 160, 0.18) 0%, transparent 70%);
     animation: orb-drift-1 20s ease-in-out infinite alternate;
   }
   .orb-2 {
     width: 50vw; height: 50vw;
     top: -10%; right: -10%;
-    background: radial-gradient(circle, rgba(70, 20, 160, 0.18) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(130, 130, 130, 0.15) 0%, transparent 70%);
     animation: orb-drift-2 25s ease-in-out infinite alternate;
   }
   .orb-3 {
     width: 40vw; height: 40vw;
     bottom: 0%; left: 25%;
-    background: radial-gradient(circle, rgba(40, 10, 100, 0.20) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(100, 100, 100, 0.16) 0%, transparent 70%);
     animation: orb-drift-3 18s ease-in-out infinite alternate;
   }
   @keyframes orb-drift-1 {
@@ -118,9 +118,9 @@
   .aurora-mesh {
     position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse 70% 30% at 50% 0%, rgba(120, 60, 255, 0.12) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 40% at 10% 70%, rgba(80, 30, 180, 0.08) 0%, transparent 60%),
-      radial-gradient(ellipse 50% 40% at 90% 80%, rgba(60, 10, 140, 0.07) 0%, transparent 60%);
+      radial-gradient(ellipse 70% 30% at 50% 0%, rgba(180, 180, 180, 0.10) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 10% 70%, rgba(140, 140, 140, 0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 90% 80%, rgba(120, 120, 120, 0.06) 0%, transparent 60%);
   }
 
   /* === RAYS CANVAS: CSS blur = GPU accelerated === */
@@ -226,10 +226,10 @@
         { angle:  0.42, spread: 0.08, len: 1.35 },
       ];
       const COLORS = [
-        'rgba(190,130,255,',
-        'rgba(160,100,245,',
-        'rgba(210,160,255,',
-        'rgba(170,110,250,',
+        'rgba(200,200,200,',
+        'rgba(170,170,170,',
+        'rgba(220,220,220,',
+        'rgba(180,180,180,',
       ];
       const diag = Math.sqrt(W * W + H * H);
       for (let i = 0; i < CONFIGS.length; i++) {
@@ -325,7 +325,7 @@
         if (p.y < 0) p.y = H; else if (p.y > H) p.y = 0;
         particlesCtx.beginPath();
         particlesCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        particlesCtx.fillStyle = `rgba(190,160,255,${p.alpha})`;
+        particlesCtx.fillStyle = `rgba(200,200,200,${p.alpha})`;
         particlesCtx.fill();
       }
     }

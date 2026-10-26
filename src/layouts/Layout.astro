@@ -67,6 +67,31 @@ const imageUrl = new URL(image, Astro.site || Astro.url);
 			]
 		})} />
 
+		<!-- Preconnect for faster Google Analytics & GTM loading -->
+		<link rel="preconnect" href="https://www.googletagmanager.com" />
+		<link rel="preconnect" href="https://www.google-analytics.com" />
+
+		<!-- Google Analytics 4 (gtag.js) -->
+		<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-GP5VM5QTWS"></script>
+		<script is:inline>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+
+			gtag('config', 'G-GP5VM5QTWS', {
+				// Accurate page view tracking (works with Astro view transitions)
+				send_page_view: true,
+				// Privacy-conscious defaults
+				anonymize_ip: true,
+				// Secure cookie settings for accurate cross-session tracking
+				cookie_flags: 'SameSite=None;Secure',
+				cookie_domain: 'halovirman.my.id',
+				// Enhanced link attribution for accurate click tracking
+				link_attribution: true
+			});
+		</script>
+		<!-- End Google Analytics 4 -->
+
 		<!-- Google Tag Manager -->
 		<script is:inline>
 			(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -119,6 +144,86 @@ const imageUrl = new URL(image, Astro.site || Astro.url);
 		document.querySelectorAll('.reveal').forEach(el => {
 			observer.observe(el);
 		});
+	});
+</script>
+
+<!-- GA4 Event Tracking: CTA clicks & scroll depth -->
+<script is:inline>
+	document.addEventListener('DOMContentLoaded', function() {
+		// Helper: safely call gtag
+		function trackEvent(eventName, params) {
+			if (typeof gtag === 'function') {
+				gtag('event', eventName, params);
+			}
+		}
+
+		// ===== CTA Button Click Tracking =====
+		// Portfolio button
+		document.querySelectorAll('.btn-primary').forEach(function(btn) {
+			btn.addEventListener('click', function() {
+				trackEvent('cta_click', {
+					event_category: 'engagement',
+					event_label: 'portfolio',
+					link_url: btn.getAttribute('href'),
+					link_text: btn.textContent.trim()
+				});
+			});
+		});
+
+		// WhatsApp button
+		document.querySelectorAll('.btn-whatsapp').forEach(function(btn) {
+			btn.addEventListener('click', function() {
+				trackEvent('cta_click', {
+					event_category: 'conversion',
+					event_label: 'whatsapp_contact',
+					link_url: btn.getAttribute('href'),
+					link_text: btn.textContent.trim()
+				});
+				// Also fire as a conversion event for Google Ads
+				trackEvent('conversion', {
+					send_to: 'G-GP5VM5QTWS',
+					event_category: 'lead',
+					event_label: 'whatsapp_click'
+				});
+			});
+		});
+
+		// Social link clicks
+		document.querySelectorAll('.social-icon').forEach(function(link) {
+			link.addEventListener('click', function() {
+				trackEvent('social_click', {
+					event_category: 'engagement',
+					event_label: link.getAttribute('title') || 'social',
+					link_url: link.getAttribute('href')
+				});
+			});
+		});
+
+		// ===== Scroll Depth Tracking =====
+		var scrollMilestones = { 25: false, 50: false, 75: false, 100: false };
+		var ticking = false;
+
+		window.addEventListener('scroll', function() {
+			if (!ticking) {
+				window.requestAnimationFrame(function() {
+					var scrollPercent = Math.round(
+						(window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+					);
+					[25, 50, 75, 100].forEach(function(milestone) {
+						if (scrollPercent >= milestone && !scrollMilestones[milestone]) {
+							scrollMilestones[milestone] = true;
+							trackEvent('scroll_depth', {
+								event_category: 'engagement',
+								event_label: milestone + '%',
+								value: milestone
+							});
+						}
+					});
+					ticking = false;
+				});
+				ticking = true;
+			}
+		}, { passive: true });
 	});
 </script>
 
