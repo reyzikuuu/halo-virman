@@ -16,6 +16,8 @@ const {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || Astro.url);
 const imageUrl = new URL(image, Astro.site || Astro.url);
+const pixelId = import.meta.env.META_PIXEL_ID || "864721303383684";
+const testEventCode = import.meta.env.META_TEST_EVENT_CODE || "";
 ---
 
 <!doctype html>
@@ -67,6 +69,28 @@ const imageUrl = new URL(image, Astro.site || Astro.url);
 			]
 		})} />
 
+		<!-- Meta Pixel Code (Top of Funnel: PageView) -->
+		<script is:inline define:vars={{ pixelId, testEventCode }}>
+			!function(f,b,e,v,n,t,s)
+			{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+			n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+			if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+			n.queue=[];t=b.createElement(e);t.async=!0;
+			t.src=v;s=b.getElementsByTagName(e)[0];
+			s.parentNode.insertBefore(t,s)}(window, document,'script',
+			'https://connect.facebook.net/en_US/fbevents.js');
+			fbq('init', pixelId);
+			if (testEventCode) {
+				fbq('track', 'PageView', {}, { test_event_code: testEventCode });
+			} else {
+				fbq('track', 'PageView');
+			}
+		</script>
+		<noscript>
+			<img height="1" width="1" style="display:none"
+				src={`https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1${testEventCode ? `&test_event_code=${testEventCode}` : ''}`} />
+		</noscript>
+		<!-- End Meta Pixel Code -->
 </head>
 	<body>
 
