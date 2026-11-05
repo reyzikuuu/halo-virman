@@ -1,22 +1,14 @@
-import type { APIRoute } from 'astro';
+interface Env {
+  META_PIXEL_ID?: string;
+  META_ACCESS_TOKEN?: string;
+  META_TEST_EVENT_CODE?: string;
+  GOOGLE_SHEET_WEBHOOK_URL?: string;
+}
 
-export const prerender = false;
-
-function getEnv(key: string, cfContext?: { env?: Record<string, string | undefined> }): string | undefined {
-  // 1. context.locals.cfContext?.env?.[KEY] (Cloudflare Worker production runtime)
-  if (cfContext?.env?.[key]) {
-    return cfContext.env[key]?.trim();
-  }
-  // 2. process.env (Node environment)
-  if (typeof process !== 'undefined' && process.env?.[key]) {
-    return process.env[key]?.trim();
-  }
-  // 3. import.meta.env (Astro build/Vite environment)
-  const metaVal = (import.meta.env as Record<string, string | undefined>)?.[key];
-  if (metaVal) {
-    return metaVal.trim();
-  }
-  return undefined;
+function getCookie(cookieHeader: string | null, name: string): string | undefined {
+  if (!cookieHeader) return undefined;
+  const match = cookieHeader.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+  return match ? decodeURIComponent(match[1]) : undefined;
 }
 
 async function sendToMetaCAPI(params: {
@@ -89,33 +81,33 @@ async function sendToGoogleSheets(webhookUrl: string, data: Record<string, unkno
   }
 }
 
-export const POST: APIRoute = async (context) => {
+export const onRequestPost = async (context: {
+  request: Request;
+  env: Env;
+  waitUntil: (promise: Promise<unknown>) => void;
+}) => {
   try {
-    const body = await context.request.json().catch(() => ({}));
-    const cfContext = (context.locals as {
-      cfContext?: {
-        env?: Record<string, string | undefined>;
-        waitUntil?: (p: Promise<unknown>) => void;
-      };
-    })?.cfContext;
+    const { request, env, waitUntil } = context;
+    const body = (await request.json().catch(() => ({}))) as Record<string, any>;
+    const cookieHeader = request.headers.get('cookie');
 
     const refCode = body.refCode || '';
     const eventId = body.eventId || `contact_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
-    const fbc = context.cookies.get('_fbc')?.value || body.fbc || undefined;
-    const fbp = context.cookies.get('_fbp')?.value || body.fbp || undefined;
-    const gclid = context.cookies.get('_gclid')?.value || body.gclid || undefined;
-    const sourceUrl = body.sourceUrl || context.request.headers.get('referer') || context.url.href;
+    const fbc = getCookie(cookieHeader, '_fbc') || body.fbc || undefined;
+    const fbp = getCookie(cookieHeader, '_fbp') || body.fbp || undefined;
+    const gclid = getCookie(cookieHeader, '_gclid') || body.gclid || undefined;
+    const sourceUrl = body.sourceUrl || request.headers.get('referer') || request.url;
 
     const clientIp =
-      context.request.headers.get('cf-connecting-ip') ||
-      context.request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+      request.headers.get('cf-connecting-ip') ||
+      request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
       '127.0.0.1';
-    const userAgent = context.request.headers.get('user-agent') || '';
+    const userAgent = request.headers.get('user-agent') || '';
 
-    const pixelId = getEnv('META_PIXEL_ID', cfContext) || '864721303383684';
-    const accessToken = getEnv('META_ACCESS_TOKEN', cfContext);
-    const googleSheetWebhookUrl = getEnv('GOOGLE_SHEET_WEBHOOK_URL', cfContext);
-    const testEventCode = getEnv('META_TEST_EVENT_CODE', cfContext);
+    const pixelId = env.META_PIXEL_ID || '864721303383684';
+    const accessToken = env.META_ACCESS_TOKEN;
+    const googleSheetWebhookUrl = env.GOOGLE_SHEET_WEBHOOK_URL;
+    const testEventCode = env.META_TEST_EVENT_CODE;
 
     const tasks: Promise<void>[] = [];
 
@@ -138,7 +130,7 @@ export const POST: APIRoute = async (context) => {
         })
       );
     } else {
-      console.warn('[Track Contact] META_ACCESS_TOKEN belum diset di .env');
+      console.warn('[Track Contact] META_ACCESS_TOKEN belum diset di Cloudflare Pages');
     }
 
     // 2. Kirim metadata awal ke Webhook Google Sheets
@@ -163,12 +155,10 @@ export const POST: APIRoute = async (context) => {
     }
 
     // 3. Non-blocking execution di Edge runtime via waitUntil
-    const backgroundPromise = Promise.all(tasks).then(() => { });
-
-    if (cfContext && typeof cfContext.waitUntil === 'function') {
-      cfContext.waitUntil(backgroundPromise);
+    const backgroundPromise = Promise.all(tasks).then(() => {});
+    if (typeof waitUntil === 'function') {
+      waitUntil(backgroundPromise);
     } else {
-      // Fallback saat development lokal (Node.js) di mana cfContext tidak ada
       await backgroundPromise;
     }
 
@@ -182,6 +172,7 @@ export const POST: APIRoute = async (context) => {
         status: 200,
         headers: {
           'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
         },
       }
     );
@@ -199,3 +190,15 @@ export const POST: APIRoute = async (context) => {
     );
   }
 };
+
+export const onRequestOptions = async () => {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
+};
+
