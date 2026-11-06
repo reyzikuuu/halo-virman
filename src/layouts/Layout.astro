@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import Navbar from "../components/Navbar.astro";
+import mobileHeroImg from "../assets/images/lanyard-hero-mobile.webp";
 
 interface Props {
 	title?: string;
@@ -25,6 +26,19 @@ const testEventCode = import.meta.env.META_TEST_EVENT_CODE || "";
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- Preload Critical LCP Hero Image for Mobile -->
+		<link
+			rel="preload"
+			as="image"
+			href={mobileHeroImg.src}
+			type="image/webp"
+			media="(max-width: 1023px)"
+			fetchpriority="high"
+		/>
+
+		<link rel="preconnect" href="https://cdn.halovirman.my.id" crossorigin />
+		<link rel="dns-prefetch" href="https://cdn.halovirman.my.id" />
 		<link rel="preconnect" href="https://connect.facebook.net" crossorigin />
 		<link rel="dns-prefetch" href="https://connect.facebook.net" />
 		<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />

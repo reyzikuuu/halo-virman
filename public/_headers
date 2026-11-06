@@ -1,0 +1,21 @@
+# Cloudflare Pages Caching Headers
+# 1. Assets dengan hash di /_astro/ di-cache 1 tahun (immutable)
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# 2. Gambar dan Favicon di-cache 30 hari
+/favicon/*
+  Cache-Control: public, max-age=2592000
+*.webp
+  Cache-Control: public, max-age=2592000
+*.png
+  Cache-Control: public, max-age=2592000
+*.jpg
+  Cache-Control: public, max-age=2592000
+*.svg
+  Cache-Control: public, max-age=2592000
+
+# 3. HTML pages di-cache singkat dengan revalidasi
+/*
+  Cache-Control: public, max-age=0, must-revalidate
+

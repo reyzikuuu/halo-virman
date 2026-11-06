@@ -56,6 +56,8 @@ export default function VideoMarquee() {
             <img
               src={video.poster}
               alt={video.title}
+              width={230}
+              height={409}
               loading="lazy"
               decoding="async"
               className="absolute inset-0 w-full h-full object-cover z-0"
@@ -69,6 +71,8 @@ export default function VideoMarquee() {
               loop
               playsInline
               preload="none"
+              width={230}
+              height={409}
               poster={video.poster}
               onPlaying={(e) => {
                 e.currentTarget.style.opacity = '1';

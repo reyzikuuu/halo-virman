@@ -212,8 +212,8 @@ import WhatsAppCTA from "./WhatsAppCTA.astro";
 			alt="Hero Illustration Desktop"
 			class="desktop-hero-image"
 			aria-hidden="true"
-			loading="eager"
-			fetchpriority="high"
+			loading="lazy"
+			decoding="async"
 		/>
 	</div>
 </div>
@@ -590,7 +590,6 @@ import WhatsAppCTA from "./WhatsAppCTA.astro";
 		justify-content: center;
 		pointer-events: none;
 		margin-top: -2rem; /* Geser sedikit ke atas jika diperlukan */
-		animation: slideDownFade 0.7s ease-out both;
 	}
 
 	.mobile-hero-image {
@@ -602,6 +601,7 @@ import WhatsAppCTA from "./WhatsAppCTA.astro";
 		margin-left: 7rem; /* ⬅️ Geser Kiri (contoh: -2rem) / Geser Kanan (contoh: 2rem) */
 		animation: swingImage 3s ease-in-out infinite alternate;
 		transform-origin: top center;
+		will-change: transform;
 	}
 
 	@keyframes swingImage {

@@ -171,6 +171,13 @@
     80% { transform: translate(1%,-2%); } 90% { transform: translate(-2%,4%); }
     100%{ transform: translate(0,0); }
   }
+
+  @media (max-width: 768px) {
+    /* Matikan filter SVG berat di mobile untuk menghemat GPU/CPU & mempercepat LCP */
+    .aurora-grain {
+      display: none;
+    }
+  }
 </style>
 
 <script>
@@ -296,7 +303,7 @@
       vx: number; vy: number; alpha: number; da: number;
     }
 
-    const PARTICLE_COUNT = 45; // reduced from 60
+    const PARTICLE_COUNT = W < 768 ? 16 : 45; // hemat komputasi canvas di mobile
     const particles: Particle[] = [];
 
     function buildParticles() {
@@ -357,6 +364,12 @@
 
     buildRays();
     buildParticles();
-    loop();
+    
+    // Beri waktu browser melukis LCP hero image sebelum memulai loop canvas
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(() => loop());
+    } else {
+      setTimeout(loop, 120);
+    }
   })();
 </script>
