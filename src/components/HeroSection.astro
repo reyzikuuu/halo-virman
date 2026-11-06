@@ -613,6 +613,7 @@ const { heroImg } = Astro.props;
 		justify-content: center;
 		pointer-events: none;
 		margin-top: -2rem; /* Geser sedikit ke atas jika diperlukan */
+		animation: slideDownFade 0.7s ease-out both;
 	}
 
 	.mobile-hero-image {
@@ -622,7 +623,7 @@ const { heroImg } = Astro.props;
 		object-fit: contain;
 		object-position: top center;
 		margin-left: 7rem; /* ⬅️ Geser Kiri (contoh: -2rem) / Geser Kanan (contoh: 2rem) */
-		animation: swingImage 3s ease-in-out 1.2s infinite alternate;
+		animation: swingImage 3s ease-in-out infinite alternate;
 		transform-origin: top center;
 		will-change: transform;
 	}
@@ -633,6 +634,17 @@ const { heroImg } = Astro.props;
 		}
 		100% {
 			transform: rotate(7.5deg);
+		}
+	}
+
+	@keyframes slideDownFade {
+		from {
+			opacity: 0;
+			transform: translateY(-40px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
 		}
 	}
 
