@@ -23,28 +23,30 @@ const { heroImg } = Astro.props;
 <div class="hero-container">
 	<!-- Mobile Hero Image -->
 	<div class="mobile-hero-wrapper">
-		{heroImg ? (
-			<img
-				src={heroImg.src}
-				width={heroImg.attributes.width}
-				height={heroImg.attributes.height}
-				alt="Hero Illustration"
-				class="mobile-hero-image"
-				aria-hidden="true"
-				loading="eager"
-				fetchpriority="high"
-				decoding="async"
-			/>
-		) : (
-			<Image
-				src={mobileHeroImg}
-				alt="Hero Illustration"
-				class="mobile-hero-image"
-				aria-hidden="true"
-				loading="eager"
-				fetchpriority="high"
-			/>
-		)}
+		{
+			heroImg ? (
+				<img
+					src={heroImg.src}
+					width={heroImg.attributes.width}
+					height={heroImg.attributes.height}
+					alt="Hero Illustration"
+					class="mobile-hero-image"
+					aria-hidden="true"
+					loading="eager"
+					fetchpriority="high"
+					decoding="async"
+				/>
+			) : (
+				<Image
+					src={mobileHeroImg}
+					alt="Hero Illustration"
+					class="mobile-hero-image"
+					aria-hidden="true"
+					loading="eager"
+					fetchpriority="high"
+				/>
+			)
+		}
 	</div>
 
 	<!-- LEFT: Hero Text Content -->
@@ -260,10 +262,10 @@ const { heroImg } = Astro.props;
 		.hero-container {
 			flex-direction: row;
 			align-items: center;
-			justify-content: center;
+			justify-content: space-between;
 			gap: 2rem;
-			padding: 6rem 4rem 0;
-			max-width: 1400px;
+			padding: 6rem 2rem 0;
+			max-width: 56rem; /* Sama persis dengan max-w-4xl (896px) pada Navbar */
 			margin: 0 auto;
 			left: 50%;
 			right: auto;
@@ -274,12 +276,13 @@ const { heroImg } = Astro.props;
 
 	/* ===== LEFT COLUMN: Hero Text ===== */
 	.hero-left {
+		position: relative;
+		z-index: 10;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		text-align: center;
 		gap: 1rem;
-		z-index: 10;
 		max-width: 600px;
 		pointer-events: none;
 	}
@@ -301,10 +304,17 @@ const { heroImg } = Astro.props;
 	.status-container {
 		display: flex;
 		align-items: center;
+		justify-content: center;
 		gap: 0.75rem;
 		animation: fadeInUp 0.6s ease-out both;
 		flex-wrap: wrap;
 		pointer-events: auto;
+	}
+
+	@media (min-width: 1024px) {
+		.status-container {
+			justify-content: flex-start;
+		}
 	}
 
 	.status-badge {
@@ -364,18 +374,18 @@ const { heroImg } = Astro.props;
 	}
 
 	.hero-greeting {
-		font-size: 1.2rem;
+		font-size: 1.15rem;
 		font-weight: 400;
 		color: rgba(255, 255, 255, 0.75);
 		letter-spacing: 0.05em;
 	}
 
 	.hero-name {
-		font-size: clamp(3rem, 7vw, 5rem);
+		font-size: clamp(2.4rem, 6vw, 4.5rem);
 		font-weight: 800;
 		color: white;
 		letter-spacing: -0.04em;
-		line-height: 1;
+		line-height: 1.05;
 	}
 
 	.accent-dot {
@@ -386,11 +396,18 @@ const { heroImg } = Astro.props;
 	.hero-role {
 		display: flex;
 		align-items: center;
+		justify-content: center;
 		gap: 0.5rem;
-		font-size: 1.1rem;
+		font-size: 1.05rem;
 		font-weight: 500;
 		color: rgba(255, 255, 255, 0.8);
 		animation: fadeInUp 0.6s ease-out 0.2s both;
+	}
+
+	@media (min-width: 1024px) {
+		.hero-role {
+			justify-content: flex-start;
+		}
 	}
 
 	.role-icon {
@@ -437,6 +454,7 @@ const { heroImg } = Astro.props;
 	.tech-stack {
 		display: flex;
 		flex-direction: column;
+		align-items: center;
 		gap: 0.6rem;
 		animation: fadeInUp 0.6s ease-out 0.4s both;
 	}
@@ -452,6 +470,7 @@ const { heroImg } = Astro.props;
 	.tech-icons {
 		display: flex;
 		align-items: center;
+		justify-content: center;
 		gap: 1.25rem;
 		pointer-events: auto;
 	}
@@ -472,9 +491,23 @@ const { heroImg } = Astro.props;
 	.hero-cta {
 		display: flex;
 		align-items: center;
+		justify-content: center;
+		flex-wrap: wrap;
 		gap: 0.75rem;
 		animation: fadeInUp 0.6s ease-out 0.5s both;
 		pointer-events: auto;
+	}
+
+	@media (min-width: 1024px) {
+		.tech-stack {
+			align-items: flex-start;
+		}
+		.tech-icons {
+			justify-content: flex-start;
+		}
+		.hero-cta {
+			justify-content: flex-start;
+		}
 	}
 
 	.btn-primary {
@@ -584,45 +617,42 @@ const { heroImg } = Astro.props;
 	.social-links {
 		display: flex;
 		align-items: center;
+		justify-content: center;
 		gap: 1.25rem;
 		padding-top: 0.5rem;
 		animation: fadeInUp 0.6s ease-out 0.6s both;
 		pointer-events: auto;
 	}
 
-	.social-icon {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		color: rgba(255, 255, 255, 0.65);
-		text-decoration: none;
-		transition: all 0.3s ease;
-	}
-
-	.social-icon:hover {
-		color: white;
-		transform: translateY(-2px) scale(1.15);
+	@media (min-width: 1024px) {
+		.social-links {
+			justify-content: flex-start;
+		}
 	}
 
 	/* ===== MOBILE HERO IMAGE ===== */
 	.mobile-hero-wrapper {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
 		display: flex !important;
 		width: 100%;
-		flex: 1;
+		height: 100%;
 		align-items: flex-start;
 		justify-content: center;
 		pointer-events: none;
-		margin-top: -2rem; /* Geser sedikit ke atas jika diperlukan */
+		margin-top: -10rem; /* Geser Atas (-) / Bawah (+) */
 		animation: slideDownFade 0.7s ease-out both;
 	}
 
 	.mobile-hero-image {
+		--mobile-hero-scale: 0.95; /* ⬅️ ATUR SCALE DI SINI: ubah 1 jadi 1.1, 1.2, atau 0.9 */
 		width: 100%;
-		max-width: 420px; /* Diperkecil dari 500px */
-		max-height: 55vh; /* Diperkecil dari 65vh */
+		max-width: 420px; /* Batas lebar gambar */
+		max-height: 70vh; /* Batas tinggi gambar */
 		object-fit: contain;
 		object-position: top center;
-		margin-left: 7rem; /* ⬅️ Geser Kiri (contoh: -2rem) / Geser Kanan (contoh: 2rem) */
+		margin-left: 7rem; /* ⬅️ Geser Kiri (-) / Geser Kanan (+) */
 		animation: swingImage 3s ease-in-out infinite alternate;
 		transform-origin: top center;
 		will-change: transform;
@@ -630,10 +660,10 @@ const { heroImg } = Astro.props;
 
 	@keyframes swingImage {
 		0% {
-			transform: rotate(-7.5deg);
+			transform: scale(var(--mobile-hero-scale, 1)) rotate(-7.5deg);
 		}
 		100% {
-			transform: rotate(7.5deg);
+			transform: scale(var(--mobile-hero-scale, 1)) rotate(7.5deg);
 		}
 	}
 
@@ -684,15 +714,25 @@ const { heroImg } = Astro.props;
 	}
 
 	.desktop-hero-image {
+		--desktop-hero-scale: 1.6; /* ⬅️ ATUR SCALE DI SINI: ganti misal 1.1, 1.2, atau 1.3 */
 		width: 100%;
-		max-width: 600px;
-		max-height: 100vh;
+		max-width: 520px;
+		max-height: 80vh;
 		object-fit: contain;
-		margin-top: -10rem;
-		margin-left: 0;
-		transform: scale(2);
+		margin-top: -13rem; /* ⬅️ Geser Atas (-) / Bawah (+) */
+		margin-left: 0; /* ⬅️ Geser Kiri (-) / Kanan (+) */
 		transform-origin: center;
 		animation: heroFloat 4s ease-in-out infinite;
+	}
+
+	@keyframes heroFloat {
+		0%,
+		100% {
+			transform: scale(var(--desktop-hero-scale, 1.15)) translateY(0);
+		}
+		50% {
+			transform: scale(var(--desktop-hero-scale, 1.15)) translateY(-12px);
+		}
 	}
 
 	@media (min-width: 1024px) {
