@@ -20,9 +20,13 @@ const duplicatedVideos = [...videosData, ...videosData, ...videosData];
   <div id="marquee-container" class="flex w-fit animate-marquee hover:paused">
     {duplicatedVideos.map((video, index) => (
       <div
-        class="shrink-0 mx-2 md:mx-3 w-47.5 md:w-57.5 h-84.5 md:h-102.25 rounded-2xl overflow-hidden relative group border border-white/10 transition-transform duration-300 hover:scale-[1.02]"
+        class="marquee-card shrink-0 mx-2 md:mx-3 w-47.5 md:w-57.5 h-84.5 md:h-102.25 rounded-2xl overflow-hidden relative group border border-white/10 transition-transform duration-300 hover:scale-[1.02]"
+        data-mobile-webm={video.src.mobile.webm}
+        data-mobile-mp4={video.src.mobile.mp4}
+        data-desktop-webm={video.src.desktop.webm}
+        data-desktop-mp4={video.src.desktop.mp4}
       >
-        {/* Fallback Poster Image with native lazy loading */}
+        {/* Poster Image — always visible until video plays */}
         <img
           src={video.poster}
           alt={video.title}
@@ -33,24 +37,7 @@ const duplicatedVideos = [...videosData, ...videosData, ...videosData];
           class="absolute inset-0 w-full h-full object-cover z-0"
         />
 
-        {/* Video Element without direct poster attribute to prevent premature mass-fetching */}
-        <video
-          class="marquee-video absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-500 opacity-0"
-          muted
-          loop
-          playsinline
-          preload="none"
-          width="230"
-          height="409"
-        >
-          {/* Mobile WebM & MP4 (Max width 768px) */}
-          <source src={video.src.mobile.webm} type="video/webm" media="(max-width: 768px)" />
-          <source src={video.src.mobile.mp4} type="video/mp4" media="(max-width: 768px)" />
-
-          {/* Desktop WebM & MP4 (Default) */}
-          <source src={video.src.desktop.webm} type="video/webm" />
-          <source src={video.src.desktop.mp4} type="video/mp4" />
-        </video>
+        {/* Video element is created lazily by JS only when the card enters viewport */}
 
         {/* Overlay Gradient for Text */}
         <div class="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
@@ -69,30 +56,96 @@ const duplicatedVideos = [...videosData, ...videosData, ...videosData];
     const marquee = document.getElementById('marquee-container');
     if (!marquee) return;
 
+    const isMobile = window.innerWidth < 768;
+    const MAX_ACTIVE = isMobile ? 3 : 5; // Limit concurrent video decodes
+    const activeVideos = new Set<HTMLVideoElement>();
+
+    // Lazily create a <video> element inside a card
+    function ensureVideo(card: HTMLElement): HTMLVideoElement | null {
+      let video = card.querySelector<HTMLVideoElement>('video');
+      if (video) return video;
+
+      // Build video element on demand
+      video = document.createElement('video');
+      video.className = 'absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-500 opacity-0';
+      video.muted = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.preload = 'none';
+      video.setAttribute('width', '230');
+      video.setAttribute('height', '409');
+
+      // Pick sources based on viewport width
+      if (isMobile) {
+        addSource(video, card.dataset.mobileWebm!, 'video/webm');
+        addSource(video, card.dataset.mobileMp4!, 'video/mp4');
+      } else {
+        addSource(video, card.dataset.desktopWebm!, 'video/webm');
+        addSource(video, card.dataset.desktopMp4!, 'video/mp4');
+      }
+
+      video.addEventListener('playing', () => {
+        video!.classList.remove('opacity-0');
+      }, { once: true });
+
+      card.insertBefore(video, card.querySelector('.bg-linear-to-t'));
+      return video;
+    }
+
+    function addSource(video: HTMLVideoElement, src: string, type: string) {
+      const source = document.createElement('source');
+      source.src = src;
+      source.type = type;
+      video.appendChild(source);
+    }
+
+    // Activate a video (play) while respecting the concurrent limit
+    function activateVideo(card: HTMLElement) {
+      const video = ensureVideo(card);
+      if (!video || activeVideos.has(video)) return;
+
+      // If we're at the limit, pause the oldest one
+      if (activeVideos.size >= MAX_ACTIVE) {
+        const oldest = activeVideos.values().next().value;
+        if (oldest) {
+          oldest.pause();
+          activeVideos.delete(oldest);
+        }
+      }
+
+      activeVideos.add(video);
+      video.play().catch(() => {});
+    }
+
+    // Deactivate a video (pause and free decode resources)
+    function deactivateVideo(card: HTMLElement) {
+      const video = card.querySelector<HTMLVideoElement>('video');
+      if (!video) return;
+      video.pause();
+      activeVideos.delete(video);
+    }
+
+    // Observe cards (not videos) — only create video elements when visible
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          const video = entry.target as HTMLVideoElement;
+        for (const entry of entries) {
+          const card = entry.target as HTMLElement;
           if (entry.isIntersecting) {
-            video.play().catch(() => {});
+            activateVideo(card);
           } else {
-            video.pause();
+            deactivateVideo(card);
           }
-        });
+        }
       },
       {
         root: null,
-        rootMargin: '100px',
+        rootMargin: '200px', // Start loading slightly before entering viewport
         threshold: 0.1,
       }
     );
 
-    const videos = marquee.querySelectorAll<HTMLVideoElement>('.marquee-video');
-    videos.forEach((video) => {
-      video.addEventListener('playing', () => {
-        video.classList.remove('opacity-0');
-      }, { once: true });
-      observer.observe(video);
+    marquee.querySelectorAll<HTMLElement>('.marquee-card').forEach((card) => {
+      observer.observe(card);
     });
   })();
 </script>
