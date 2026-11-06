@@ -1,18 +1,19 @@
 ---
 import "../styles/global.css";
 import Navbar from "../components/Navbar.astro";
-import mobileHeroImg from "../assets/images/lanyard-hero-mobile.webp";
 
 interface Props {
 	title?: string;
 	description?: string;
 	image?: string;
+	preloadHeroSrc?: string;
 }
 
 const {
 	title = "Virman Adipura | Editor Video & Junior Meta Ads",
 	description = "Portofolio pribadi Virman Adipura. Editor video, kreator konten, dan digital enthusiast dari Tasikmalaya.",
-	image = "/og-images.jpeg"
+	image = "/og-images.jpeg",
+	preloadHeroSrc
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || Astro.url);
@@ -27,15 +28,17 @@ const testEventCode = import.meta.env.META_TEST_EVENT_CODE || "";
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		<!-- Preload Critical LCP Hero Image for Mobile -->
-		<link
-			rel="preload"
-			as="image"
-			href={mobileHeroImg.src}
-			type="image/webp"
-			media="(max-width: 1023px)"
-			fetchpriority="high"
-		/>
+		<!-- Preload Critical LCP Hero Image for Mobile (Exact Matching URL) -->
+		{preloadHeroSrc && (
+			<link
+				rel="preload"
+				as="image"
+				href={preloadHeroSrc}
+				type="image/webp"
+				media="(max-width: 1023px)"
+				fetchpriority="high"
+			/>
+		)}
 
 		<link rel="preconnect" href="https://cdn.halovirman.my.id" crossorigin />
 		<link rel="dns-prefetch" href="https://cdn.halovirman.my.id" />

@@ -8,20 +8,43 @@ import photoshopIcon from "../assets/icon-tech-stack/photoshop-icon.png";
 import aeIcon from "../assets/icon-tech-stack/after-effect-icon.png";
 import premiereIcon from "../assets/icon-tech-stack/priemere-pro-icon.png";
 import WhatsAppCTA from "./WhatsAppCTA.astro";
+
+interface Props {
+	heroImg?: {
+		src: string;
+		attributes: Record<string, any>;
+	};
+}
+
+const { heroImg } = Astro.props;
 ---
 
 <!-- Hero Section: Two-Column Layout -->
 <div class="hero-container">
 	<!-- Mobile Hero Image -->
 	<div class="mobile-hero-wrapper">
-		<Image
-			src={mobileHeroImg}
-			alt="Hero Illustration"
-			class="mobile-hero-image"
-			aria-hidden="true"
-			loading="eager"
-			fetchpriority="high"
-		/>
+		{heroImg ? (
+			<img
+				src={heroImg.src}
+				width={heroImg.attributes.width}
+				height={heroImg.attributes.height}
+				alt="Hero Illustration"
+				class="mobile-hero-image"
+				aria-hidden="true"
+				loading="eager"
+				fetchpriority="high"
+				decoding="async"
+			/>
+		) : (
+			<Image
+				src={mobileHeroImg}
+				alt="Hero Illustration"
+				class="mobile-hero-image"
+				aria-hidden="true"
+				loading="eager"
+				fetchpriority="high"
+			/>
+		)}
 	</div>
 
 	<!-- LEFT: Hero Text Content -->
@@ -599,7 +622,7 @@ import WhatsAppCTA from "./WhatsAppCTA.astro";
 		object-fit: contain;
 		object-position: top center;
 		margin-left: 7rem; /* ⬅️ Geser Kiri (contoh: -2rem) / Geser Kanan (contoh: 2rem) */
-		animation: swingImage 3s ease-in-out infinite alternate;
+		animation: swingImage 3s ease-in-out 1.2s infinite alternate;
 		transform-origin: top center;
 		will-change: transform;
 	}
@@ -610,6 +633,25 @@ import WhatsAppCTA from "./WhatsAppCTA.astro";
 		}
 		100% {
 			transform: rotate(7.5deg);
+		}
+	}
+
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(12px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@media (max-width: 768px) {
+		.hero-title,
+		.status-container {
+			animation: none;
+			opacity: 1;
 		}
 	}
 
