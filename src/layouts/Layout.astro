@@ -20,6 +20,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || Astro.url);
 const imageUrl = new URL(image, Astro.site || Astro.url);
 const pixelId = import.meta.env.META_PIXEL_ID || "864721303383684";
 const testEventCode = import.meta.env.META_TEST_EVENT_CODE || "";
+const gaId = import.meta.env.GOOGLE_ANALYTICS_ID || "";
+const gtmId = import.meta.env.GOOGLE_TAG_MANAGER_ID || "";
 ---
 
 <!doctype html>
@@ -44,6 +46,12 @@ const testEventCode = import.meta.env.META_TEST_EVENT_CODE || "";
 		<link rel="dns-prefetch" href="https://cdn.halovirman.my.id" />
 		<link rel="preconnect" href="https://connect.facebook.net" crossorigin />
 		<link rel="dns-prefetch" href="https://connect.facebook.net" />
+		{(gaId || gtmId) && (
+			<>
+				<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+				<link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+			</>
+		)}
 		<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
 		<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
@@ -111,6 +119,32 @@ const testEventCode = import.meta.env.META_TEST_EVENT_CODE || "";
 		</noscript>
 		<!-- End Meta Pixel Code -->
 
+		<!-- Google Tag Manager -->
+		{gtmId && (
+			<script is:inline define:vars={{ gtmId }}>
+				(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+				new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+				j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+				'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+				})(window,document,'script','dataLayer',gtmId);
+			</script>
+		)}
+		<!-- End Google Tag Manager -->
+
+		<!-- Google Analytics 4 (gtag.js) -->
+		{gaId && (
+			<>
+				<script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
+				<script is:inline define:vars={{ gaId }}>
+					window.dataLayer = window.dataLayer || [];
+					function gtag(){dataLayer.push(arguments);}
+					gtag('js', new Date());
+					gtag('config', gaId);
+				</script>
+			</>
+		)}
+		<!-- End Google Analytics 4 -->
+
 		<!-- Client-side Cookie Retention (_fbc & _fbp) Fallback -->
 		<script is:inline>
 			(function() {
@@ -131,6 +165,18 @@ const testEventCode = import.meta.env.META_TEST_EVENT_CODE || "";
 		</script>
 	</head>
 	<body>
+		<!-- Google Tag Manager (noscript) -->
+		{gtmId && (
+			<noscript>
+				<iframe
+					src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+					height="0"
+					width="0"
+					style="display:none;visibility:hidden"
+				></iframe>
+			</noscript>
+		)}
+		<!-- End Google Tag Manager (noscript) -->
 		<Navbar />
 		<slot />
 	</body>

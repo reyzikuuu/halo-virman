@@ -80,6 +80,22 @@ const testEventCode = import.meta.env.META_TEST_EVENT_CODE || "";
 			window.fbq("track", "Contact", {}, pixelOptions);
 		}
 
+		// 1b. Memicu Google Analytics (gtag) / Google Tag Manager (dataLayer) jika aktif
+		if (typeof window.gtag === "function") {
+			window.gtag("event", "generate_lead", {
+				event_category: "Engagement",
+				event_label: "WhatsApp Contact",
+				value: 1,
+			});
+		}
+		if (Array.isArray(window.dataLayer)) {
+			window.dataLayer.push({
+				event: "whatsapp_click",
+				phoneNumber,
+				refCode,
+			});
+		}
+
 		// 2. Mengirim payload ke /api/track-contact (non-blocking serverless CAPI + Google Sheets)
 		try {
 			fetch("/api/track-contact", {
