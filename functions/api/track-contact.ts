@@ -184,6 +184,7 @@ export const onRequestPost = async (context: {
         success: true,
         refCode,
         eventId,
+        gclid,
       }),
       {
         status: 200,
