@@ -20,8 +20,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || Astro.url);
 const imageUrl = new URL(image, Astro.site || Astro.url);
 const pixelId = import.meta.env.META_PIXEL_ID || "864721303383684";
 const testEventCode = import.meta.env.META_TEST_EVENT_CODE || "";
-const gaId = import.meta.env.GOOGLE_ANALYTICS_ID || "";
+const googleAdsId = import.meta.env.PUBLIC_GOOGLE_ADS_ID || "";
+const gaId = import.meta.env.PUBLIC_GA_ID || import.meta.env.GOOGLE_ANALYTICS_ID || "";
 const gtmId = import.meta.env.GOOGLE_TAG_MANAGER_ID || "";
+const primaryGtagId = googleAdsId || gaId;
 ---
 
 <!doctype html>
@@ -46,7 +48,7 @@ const gtmId = import.meta.env.GOOGLE_TAG_MANAGER_ID || "";
 		<link rel="dns-prefetch" href="https://cdn.halovirman.my.id" />
 		<link rel="preconnect" href="https://connect.facebook.net" crossorigin />
 		<link rel="dns-prefetch" href="https://connect.facebook.net" />
-		{(gaId || gtmId) && (
+		{(primaryGtagId || gtmId) && (
 			<>
 				<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
 				<link rel="dns-prefetch" href="https://www.googletagmanager.com" />
@@ -131,19 +133,24 @@ const gtmId = import.meta.env.GOOGLE_TAG_MANAGER_ID || "";
 		)}
 		<!-- End Google Tag Manager -->
 
-		<!-- Google Analytics 4 (gtag.js) -->
-		{gaId && (
+		<!-- Google Tag (gtag.js) for Google Ads & GA4 -->
+		{primaryGtagId && (
 			<>
-				<script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
-				<script is:inline define:vars={{ gaId }}>
+				<script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${primaryGtagId}`}></script>
+				<script is:inline define:vars={{ googleAdsId, gaId }}>
 					window.dataLayer = window.dataLayer || [];
 					function gtag(){dataLayer.push(arguments);}
 					gtag('js', new Date());
-					gtag('config', gaId);
+					if (googleAdsId) {
+						gtag('config', googleAdsId);
+					}
+					if (gaId) {
+						gtag('config', gaId);
+					}
 				</script>
 			</>
 		)}
-		<!-- End Google Analytics 4 -->
+		<!-- End Google Tag -->
 
 		<!-- Client-side Cookie Retention (_fbc, _fbp & _gclid) Fallback -->
 		<script is:inline>
