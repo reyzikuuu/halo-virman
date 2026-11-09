@@ -43,3 +43,4 @@ Digunakan khusus untuk ekspor atau sinkronisasi offline conversion Google Ads (E
 - **Non-blocking Edge Execution**: Gunakan `context.waitUntil(...)` pada endpoint `/api/track-contact` agar respons ke browser tidak tertahan saat pengiriman payload ke Meta CAPI dan Google Sheets Webhook.
 - **Cookie Retention**: Parameter `fbclid` dan `gclid` disimpan ke cookie 90 hari (`Path=/; Max-Age=7776000; Secure; SameSite=Lax`) baik via `functions/_middleware.ts` maupun fallback client-side di `src/layouts/Layout.astro`.
 - **WhatsApp CTA Integration**: Tombol WhatsApp mengenerate kode referensi `#REF...`, eventId unik, membaca `fbc`, `fbp`, dan `gclid` (dengan fallback cookie -> localStorage -> query param), lalu memanggil `/api/track-contact` sebelum redirect ke WhatsApp.
+

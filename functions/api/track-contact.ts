@@ -89,14 +89,15 @@ export const onRequestPost = async (context: {
   try {
     const { request, env, waitUntil } = context;
     const body = (await request.json().catch(() => ({}))) as Record<string, any>;
+    const { gclid: bodyGclid, ...rest } = body;
     const cookieHeader = request.headers.get('cookie');
 
-    const refCode = body.refCode || '';
-    const eventId = body.eventId || `contact_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
-    const fbc = body.fbc || getCookie(cookieHeader, '_fbc') || undefined;
-    const fbp = body.fbp || getCookie(cookieHeader, '_fbp') || undefined;
-    const gclid = body.gclid || getCookie(cookieHeader, '_gclid') || undefined;
-    const sourceUrl = body.sourceUrl || request.headers.get('referer') || request.url;
+    const refCode = rest.refCode || '';
+    const eventId = rest.eventId || `contact_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    const fbc = rest.fbc || getCookie(cookieHeader, '_fbc') || undefined;
+    const fbp = rest.fbp || getCookie(cookieHeader, '_fbp') || undefined;
+    const gclid = bodyGclid || getCookie(cookieHeader, '_gclid') || '';
+    const sourceUrl = rest.sourceUrl || request.headers.get('referer') || request.url;
 
     const clientIp =
       request.headers.get('cf-connecting-ip') ||

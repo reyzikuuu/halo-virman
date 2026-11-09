@@ -69,15 +69,21 @@ const testEventCode = import.meta.env.META_TEST_EVENT_CODE || "";
 		const eventId = `contact_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
 		const fbc = getCookie("_fbc");
 		const fbp = getCookie("_fbp");
-		let gclid = getCookie("_gclid");
-		if (!gclid) {
+		const urlParams = new URLSearchParams(window.location.search);
+		let localGclid = "";
+		try {
+			localGclid = localStorage.getItem("_gclid") || "";
+		} catch (_) {}
+		const gclid =
+			urlParams.get("gclid") ||
+			getCookie("_gclid") ||
+			localGclid ||
+			"";
+
+		if (urlParams.get("gclid")) {
 			try {
-				gclid = localStorage.getItem("_gclid") || undefined;
+				localStorage.setItem("_gclid", urlParams.get("gclid") || "");
 			} catch (_) {}
-		}
-		if (!gclid) {
-			const urlParams = new URLSearchParams(window.location.search);
-			gclid = urlParams.get("gclid") || undefined;
 		}
 		const sourceUrl = window.location.href;
 
