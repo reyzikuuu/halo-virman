@@ -1,0 +1,45 @@
+# PROJECT RULES & TRACKING ARCHITECTURE SPECIFICATION
+
+## 1. Karpathy Guidelines
+- **Think Before Coding**: State assumptions explicitly. Surface tradeoffs. Push back when simpler approaches exist.
+- **Simplicity First**: Minimum code that solves the problem. No speculative abstractions or unrequested configurability.
+- **Surgical Changes**: Touch only what you must. Do not refactor unrelated code or alter working formatting/comments.
+- **Goal-Driven Execution**: Define success criteria upfront. Verify changes before concluding.
+
+---
+
+## 2. Google Sheets Funnel & Tracking Architecture (STRICT PRODUCTION SCHEMA)
+
+Setiap pengembangan atau interaksi AI yang berhubungan dengan logging/tracking Google Sheets WAJIB mematuhi skema multi-tab dan posisi kolom A–M berikut:
+
+### Tab 1: `Funnel_Tracker` (13 Kolom: A sampai M)
+- **Kolom A (1): `Timestamp`** - Waktu klik dibuat oleh pengunjung di website.
+- **Kolom B (2): `Ref Code`** - Kode referensi unik (misal: `#REFA1`) untuk pencocokan chat.
+- **Kolom C (3): `Phone`** - Nomor WhatsApp prospek (Format Plain Text `@`).
+  - *Catatan Operasional:* Kolom B dan C dicocokkan & diisi saat chat WhatsApp masuk dari prospek.
+- **Kolom D (4): `FBC`** - Meta Click ID (`fb.1.<timestamp>.<fbclid>`).
+- **Kolom E (5): `FBP`** - Meta Browser ID (`fb.1.<timestamp>.<randomInt>`).
+- **Kolom F (6): `Client IP`** - IP publik pengunjung dari header Cloudflare (`cf-connecting-ip`).
+- **Kolom G (7): `User Agent`** - Spesifikasi browser dan sistem operasi pengunjung.
+- **Kolom H (8): `Source URL`** - URL landing page asal tempat CTA diklik.
+- **Kolom I (9): `Status`** - Dropdown status funnel sebagai trigger Apps Script (`Contact`, `Lead`, `Purchase`).
+- **Kolom J (10): `Order Value`** - Nominal omzet atau nilai closing (Format Number `#,##0`).
+- **Kolom K (11): `Meta Log`** - Status/respons log pengiriman CAPI dari Meta Graph API.
+- **Kolom L (12): `GCLID`** - Google Click ID dari parameter URL `?gclid=`.
+- **Kolom M (13): `Google Log`** - Status/respons log pemrosesan dan ekspor konversi offline Google Ads.
+
+### Tab 2: `Google_Ads_Export` (6 Kolom: A sampai F)
+Digunakan khusus untuk ekspor atau sinkronisasi offline conversion Google Ads (Enhanced Conversions for Leads):
+- **Kolom A (1): `Google Click ID`** - GCLID yang bersumber dari Kolom L (`GCLID`) tab `Funnel_Tracker`.
+- **Kolom B (2): `Conversion Name`** - Nama event konversi (`WA_Lead` / `WA_Purchase`).
+- **Kolom C (3): `Conversion Time`** - Waktu terjadinya konversi (Format standar: `yyyy-MM-dd HH:mm:ss+07:00`).
+- **Kolom D (4): `Conversion Value`** - Nilai konversi / nominal order value dari Kolom J.
+- **Kolom E (5): `Conversion Currency`** - Mata uang konversi (`IDR`).
+- **Kolom F (6): `Hashed Phone Number`** - Nomor telepon yang dinormalisasi ke format internasional E.164 (`+62...`) lalu di-hash menggunakan SHA-256 (64 hex characters lowercase).
+
+---
+
+## 3. Cloudflare Pages & Astro SSR Rules
+- **Non-blocking Edge Execution**: Gunakan `context.waitUntil(...)` pada endpoint `/api/track-contact` agar respons ke browser tidak tertahan saat pengiriman payload ke Meta CAPI dan Google Sheets Webhook.
+- **Cookie Retention**: Parameter `fbclid` dan `gclid` disimpan ke cookie 90 hari (`Path=/; Max-Age=7776000; Secure; SameSite=Lax`) baik via `functions/_middleware.ts` maupun fallback client-side di `src/layouts/Layout.astro`.
+- **WhatsApp CTA Integration**: Tombol WhatsApp mengenerate kode referensi `#REF...`, eventId unik, membaca `fbc`, `fbp`, dan `gclid` (dengan fallback cookie -> localStorage -> query param), lalu memanggil `/api/track-contact` sebelum redirect ke WhatsApp.

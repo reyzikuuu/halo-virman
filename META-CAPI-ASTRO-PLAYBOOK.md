@@ -407,10 +407,37 @@ const testEventCode = import.meta.env.META_TEST_EVENT_CODE || "";
 
 ## 6. Google Sheets & Apps Script Backend
 
-### A. Format Kolom Google Sheets (Baris 1):
-| A | B | C | D | E | F | G | H | I | J | K |
-|---|---|---|---|---|---|---|---|---|---|---|
-| **Timestamp** | **Ref_Code** | **Phone** | **fbc** | **fbp** | **Client_IP** | **User_Agent** | **Source_URL** | **Status** | **Order_Value** | **Notes** |
+### A. Format Kolom Google Sheets:
+
+#### Tab 1: `Funnel_Tracker` (13 Kolom: A sampai M)
+| Kolom | Nama Kolom | Keterangan |
+|---|---|---|
+| **A (1)** | **Timestamp** | Waktu klik dibuat dari website |
+| **B (2)** | **Ref Code** | Kode unik pencocokan (misal `#REFA1`) |
+| **C (3)** | **Phone** | Nomor WhatsApp prospek (Format Plain Text `@`, diisi saat chat masuk) |
+| **D (4)** | **FBC** | Click ID Meta (`fb.1.<time>.<fbclid>`) |
+| **E (5)** | **FBP** | Browser ID Meta (`fb.1.<time>.<random>`) |
+| **F (6)** | **Client IP** | IP publik pengunjung dari Cloudflare |
+| **G (7)** | **User Agent** | Spesifikasi browser & perangkat pengunjung |
+| **H (8)** | **Source URL** | URL landing page tempat tombol diklik |
+| **I (9)** | **Status** | Dropdown trigger: `Contact`, `Lead`, `Purchase` |
+| **J (10)** | **Order Value** | Nominal closing/order (Format Number `#,##0`) |
+| **K (11)** | **Meta Log** | Status respons pengiriman API dari Meta CAPI |
+| **L (12)** | **GCLID** | Google Click ID dari parameter `?gclid=` |
+| **M (13)** | **Google Log** | Log status pemrosesan/ekspor konversi offline Google Ads |
+
+> *Catatan Operasional:* Kolom B dan C dicocokkan saat pesan WhatsApp masuk dari prospek. Format nomor telepon di kolom C wajib Plain Text (`@`).
+
+#### Tab 2: `Google_Ads_Export` (6 Kolom: A sampai F)
+Digunakan untuk upload/sinkronisasi konversi offline Google Ads (Enhanced Conversions for Leads):
+| Kolom | Nama Kolom | Format / Keterangan |
+|---|---|---|
+| **A (1)** | **Google Click ID** | GCLID dari Kolom L `Funnel_Tracker` |
+| **B (2)** | **Conversion Name** | `WA_Lead` atau `WA_Purchase` |
+| **C (3)** | **Conversion Time** | `yyyy-MM-dd HH:mm:ss+07:00` |
+| **D (4)** | **Conversion Value** | Nilai omzet / order value |
+| **E (5)** | **Conversion Currency** | `IDR` |
+| **F (6)** | **Hashed Phone Number** | Nomor telepon E.164 `+62...` di-hash SHA-256 |
 
 ### B. Kode Google Apps Script (`Code.gs`)
 Buka Spreadsheet > **Extensions > Apps Script**:
@@ -421,7 +448,8 @@ const TEST_EVENT_CODE = ""; // Kosongkan saat live, isi saat testing misal "TEST
 
 function doPost(e) {
   try {
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const sheet = ss.getSheetByName("Funnel_Tracker") || ss.getActiveSheet();
     const data = JSON.parse(e.postData.contents);
 
     sheet.appendRow([
@@ -435,7 +463,9 @@ function doPost(e) {
       data.sourceUrl || "",
       "Contact",
       "",
-      "Saved from Web"
+      "Saved from Web",
+      data.gclid || "",
+      ""
     ]);
 
     return ContentService.createTextOutput(JSON.stringify({ status: "success" }))

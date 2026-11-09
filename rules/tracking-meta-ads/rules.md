@@ -69,18 +69,32 @@ Sistem pelacakan ini dirancang untuk alur penjualan WhatsApp/Offline dengan elim
 
 ### 4. TECHNICAL RULES UNTUK GOOGLE SHEETS & APPS SCRIPT
 
-#### Rule 4.1: Struktur Kolom Spreadsheet (Baris 1)
-- Kolom A: `Timestamp` (Waktu klik dibuat)
-- Kolom B: `Ref Code` (Kode unik pencocokan)
-- Kolom C: `Phone` (Nomor WA prospek - Format Plain Text `@`)
-- Kolom D: `FBC` (Click ID)
-- Kolom E: `FBP` (Browser ID)
-- Kolom F: `Client IP` (IP publik pengunjung dari Cloudflare)
-- Kolom G: `User Agent` (Spesifikasi browser/perangkat)
-- Kolom H: `Source URL` (Landing page asal)
-- Kolom I: `Status` (Dropdown: `Contact`, `Lead`, `Purchase`)
-- Kolom J: `Order Value` (Nominal closing - Format Number `#,##0`)
-- Kolom K: `Meta Log` (Status pengiriman API dari Meta)
+#### Rule 4.1: Struktur Kolom Spreadsheet (13 Kolom A–M & Multi-Tab Schema)
+
+##### Tab 1: `Funnel_Tracker` (13 Kolom: A sampai M)
+- **Kolom A (1): `Timestamp`** (Waktu klik/event dibuat dari web)
+- **Kolom B (2): `Ref Code`** (Kode unik pencocokan, misal: `#REF7X9K`)
+- **Kolom C (3): `Phone`** (Nomor WhatsApp prospek - Format Plain Text `@`)
+  - *Catatan:* Kolom B & C diisi/dicocokkan saat chat masuk via WhatsApp.
+- **Kolom D (4): `FBC`** (Meta Click ID: `fb.1.<time>.<fbclid>`)
+- **Kolom E (5): `FBP`** (Meta Browser ID: `fb.1.<time>.<random>`)
+- **Kolom F (6): `Client IP`** (IP publik pengunjung dari Cloudflare `cf-connecting-ip`)
+- **Kolom G (7): `User Agent`** (Spesifikasi perangkat/browser pengunjung)
+- **Kolom H (8): `Source URL`** (Landing page asal pengunjung)
+- **Kolom I (9): `Status`** (Dropdown trigger: `Contact`, `Lead`, `Purchase`)
+- **Kolom J (10): `Order Value`** (Nominal omzet/closing - Format Number `#,##0`)
+- **Kolom K (11): `Meta Log`** (Log/status respons pengiriman CAPI dari Meta Graph API)
+- **Kolom L (12): `GCLID`** (Google Click ID dari iklan Google Ads)
+- **Kolom M (13): `Google Log`** (Log/status pemrosesan export konversi offline Google Ads)
+
+##### Tab 2: `Google_Ads_Export` (6 Kolom: A sampai F)
+Digunakan untuk upload/sinkronisasi konversi offline Google Ads (Enhanced Conversions for Leads):
+- **Kolom A (1): `Google Click ID`** (GCLID dari Kolom L `Funnel_Tracker`)
+- **Kolom B (2): `Conversion Name`** (Nama aksi konversi: `WA_Lead` / `WA_Purchase`)
+- **Kolom C (3): `Conversion Time`** (Waktu konversi, format: `yyyy-MM-dd HH:mm:ss+07:00`)
+- **Kolom D (4): `Conversion Value`** (Nominal konversi/order value dalam angka)
+- **Kolom E (5): `Conversion Currency`** (`IDR`)
+- **Kolom F (6): `Hashed Phone Number`** (Nomor telepon terformat E.164 `+62...` di-hash SHA-256)
 
 #### Rule 4.2: Normalisasi Nomor Telepon & Hashing
 - Meta melarang pengiriman data nomor telepon mentah.
