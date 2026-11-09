@@ -69,6 +69,16 @@ const testEventCode = import.meta.env.META_TEST_EVENT_CODE || "";
 		const eventId = `contact_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
 		const fbc = getCookie("_fbc");
 		const fbp = getCookie("_fbp");
+		let gclid = getCookie("_gclid");
+		if (!gclid) {
+			try {
+				gclid = localStorage.getItem("_gclid") || undefined;
+			} catch (_) {}
+		}
+		if (!gclid) {
+			const urlParams = new URLSearchParams(window.location.search);
+			gclid = urlParams.get("gclid") || undefined;
+		}
 		const sourceUrl = window.location.href;
 
 		// 1. Memicu Meta Pixel Browser (deduplication via eventID & test_event_code)
@@ -93,6 +103,7 @@ const testEventCode = import.meta.env.META_TEST_EVENT_CODE || "";
 				event: "whatsapp_click",
 				phoneNumber,
 				refCode,
+				gclid,
 			});
 		}
 
@@ -108,6 +119,7 @@ const testEventCode = import.meta.env.META_TEST_EVENT_CODE || "";
 					eventId,
 					fbc,
 					fbp,
+					gclid,
 					sourceUrl,
 				}),
 				keepalive: true,

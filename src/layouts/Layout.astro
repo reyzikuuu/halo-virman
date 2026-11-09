@@ -145,17 +145,24 @@ const gtmId = import.meta.env.GOOGLE_TAG_MANAGER_ID || "";
 		)}
 		<!-- End Google Analytics 4 -->
 
-		<!-- Client-side Cookie Retention (_fbc & _fbp) Fallback -->
+		<!-- Client-side Cookie Retention (_fbc, _fbp & _gclid) Fallback -->
 		<script is:inline>
 			(function() {
 				var urlParams = new URLSearchParams(window.location.search);
 				var fbclid = urlParams.get('fbclid');
+				var gclid = urlParams.get('gclid');
 				var now = Date.now();
 				var cookieOptions = '; path=/; max-age=7776000; SameSite=Lax';
 				if (window.location.protocol === 'https:') cookieOptions += '; Secure';
 
 				if (fbclid) {
 					document.cookie = '_fbc=fb.1.' + now + '.' + fbclid + cookieOptions;
+				}
+				if (gclid) {
+					document.cookie = '_gclid=' + gclid + cookieOptions;
+					try {
+						localStorage.setItem('_gclid', gclid);
+					} catch (_) {}
 				}
 				if (!document.cookie.match(/(?:^|; )_fbp=([^;]*)/)) {
 					var randomInt = Math.floor(1000000000 + Math.random() * 9000000000);

@@ -93,9 +93,9 @@ export const onRequestPost = async (context: {
 
     const refCode = body.refCode || '';
     const eventId = body.eventId || `contact_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
-    const fbc = getCookie(cookieHeader, '_fbc') || body.fbc || undefined;
-    const fbp = getCookie(cookieHeader, '_fbp') || body.fbp || undefined;
-    const gclid = getCookie(cookieHeader, '_gclid') || body.gclid || undefined;
+    const fbc = body.fbc || getCookie(cookieHeader, '_fbc') || undefined;
+    const fbp = body.fbp || getCookie(cookieHeader, '_fbp') || undefined;
+    const gclid = body.gclid || getCookie(cookieHeader, '_gclid') || undefined;
     const sourceUrl = body.sourceUrl || request.headers.get('referer') || request.url;
 
     const clientIp =
