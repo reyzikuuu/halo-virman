@@ -70,19 +70,18 @@ const testEventCode = import.meta.env.META_TEST_EVENT_CODE || "";
 		const fbc = getCookie("_fbc");
 		const fbp = getCookie("_fbp");
 		const urlParams = new URLSearchParams(window.location.search);
+		let urlGclid = (urlParams.get("gclid") || urlParams.get("GCLID") || "").trim();
 		let localGclid = "";
 		try {
-			localGclid = localStorage.getItem("_gclid") || "";
+			localGclid = (localStorage.getItem("_gclid") || "").trim();
 		} catch (_) {}
-		const gclid =
-			urlParams.get("gclid") ||
-			getCookie("_gclid") ||
-			localGclid ||
-			"";
+		const cookieGclid = (getCookie("_gclid") || "").trim();
 
-		if (urlParams.get("gclid")) {
+		const gclid = urlGclid || cookieGclid || localGclid || "";
+
+		if (gclid) {
 			try {
-				localStorage.setItem("_gclid", urlParams.get("gclid") || "");
+				localStorage.setItem("_gclid", gclid);
 			} catch (_) {}
 		}
 		const sourceUrl = window.location.href;

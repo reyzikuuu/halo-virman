@@ -150,7 +150,7 @@ const gtmId = import.meta.env.GOOGLE_TAG_MANAGER_ID || "";
 			(function() {
 				var urlParams = new URLSearchParams(window.location.search);
 				var fbclid = urlParams.get('fbclid');
-				var gclid = urlParams.get('gclid');
+				var gclid = (urlParams.get('gclid') || urlParams.get('GCLID') || '').trim();
 				var now = Date.now();
 				var cookieOptions = '; path=/; max-age=7776000; SameSite=Lax';
 				if (window.location.protocol === 'https:') cookieOptions += '; Secure';

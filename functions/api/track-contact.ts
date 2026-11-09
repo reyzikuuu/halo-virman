@@ -96,8 +96,24 @@ export const onRequestPost = async (context: {
     const eventId = rest.eventId || `contact_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
     const fbc = rest.fbc || getCookie(cookieHeader, '_fbc') || undefined;
     const fbp = rest.fbp || getCookie(cookieHeader, '_fbp') || undefined;
-    const gclid = bodyGclid || getCookie(cookieHeader, '_gclid') || '';
     const sourceUrl = rest.sourceUrl || request.headers.get('referer') || request.url;
+
+    let gclid = bodyGclid || getCookie(cookieHeader, '_gclid') || '';
+    if (!gclid && sourceUrl) {
+      try {
+        const parsedUrl = new URL(sourceUrl, 'https://halovirman.my.id');
+        gclid = parsedUrl.searchParams.get('gclid') || '';
+      } catch (_) {}
+    }
+    if (!gclid) {
+      try {
+        const referer = request.headers.get('referer');
+        if (referer) {
+          const parsedReferer = new URL(referer);
+          gclid = parsedReferer.searchParams.get('gclid') || '';
+        }
+      } catch (_) {}
+    }
 
     const clientIp =
       request.headers.get('cf-connecting-ip') ||
