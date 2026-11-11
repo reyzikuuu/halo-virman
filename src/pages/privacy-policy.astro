@@ -1,0 +1,249 @@
+---
+// src/pages/privacy-policy.astro
+const businessName = "Halovirman / Bird in the world";
+const domainUrl = "https://halovirman.my.id";
+const contactEmail = "admin@halovirman.my.id"; // Bisa disesuaikan dengan email bisnis Anda
+const lastUpdated = "11 November 2026";
+---
+
+<!doctype html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Kebijakan Privasi (Privacy Policy) - {businessName}</title>
+        <meta name="robots" content="index, follow" />
+        <style>
+            :root {
+                --bg-color: #f8fafc;
+                --card-bg: #ffffff;
+                --text-main: #1e293b;
+                --text-muted: #64748b;
+                --accent: #2563eb;
+                --border: #e2e8f0;
+            }
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                font-family:
+                    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                    Helvetica, Arial, sans-serif;
+                background-color: var(--bg-color);
+                color: var(--text-main);
+                line-height: 1.7;
+                padding: 2rem 1rem;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                background: var(--card-bg);
+                padding: 2.5rem;
+                border-radius: 12px;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+                border: 1px solid var(--border);
+            }
+            h1 {
+                font-size: 1.85rem;
+                margin-bottom: 0.5rem;
+                color: #0f172a;
+            }
+            .meta {
+                font-size: 0.9rem;
+                color: var(--text-muted);
+                margin-bottom: 2rem;
+                padding-bottom: 1rem;
+                border-bottom: 1px solid var(--border);
+            }
+            h2 {
+                font-size: 1.25rem;
+                margin-top: 1.75rem;
+                margin-bottom: 0.75rem;
+                color: #0f172a;
+            }
+            p {
+                margin-bottom: 1rem;
+            }
+            ul {
+                margin-bottom: 1rem;
+                padding-left: 1.5rem;
+            }
+            li {
+                margin-bottom: 0.5rem;
+            }
+            .highlight-box {
+                background-color: #f1f5f9;
+                border-left: 4px solid var(--accent);
+                padding: 1rem 1.25rem;
+                margin: 1.25rem 0;
+                border-radius: 0 8px 8px 0;
+                font-size: 0.95rem;
+            }
+            a {
+                color: var(--accent);
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+            @media (max-width: 640px) {
+                .container {
+                    padding: 1.5rem;
+                }
+                h1 {
+                    font-size: 1.5rem;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <main class="container">
+            <h1>Kebijakan Privasi (Privacy Policy)</h1>
+            <p class="meta">Terakhir Diperbarui: {lastUpdated}</p>
+
+            <p>
+                Selamat datang di <strong>{businessName}</strong> (<a
+                    href={domainUrl}>{domainUrl}</a
+                >). Kami berkomitmen penuh untuk melindungi dan menghormati
+                privasi data pribadi Anda. Kebijakan Privasi ini menjelaskan
+                bagaimana kami mengumpulkan, menggunakan, menyimpan, dan
+                melindungi informasi Anda saat Anda mengunjungi situs web kami,
+                berinteraksi dengan iklan kami, atau menghubungi kami melalui
+                layanan pesan singkat WhatsApp.
+            </p>
+
+            <h2>1. Informasi yang Kami Kumpulkan</h2>
+            <p>
+                Kami hanya mengumpulkan informasi yang relevan untuk memberikan
+                layanan pelanggan dan pemrosesan pesanan yang optimal, meliputi:
+            </p>
+            <ul>
+                <li>
+                    <strong>Data Identitas & Kontak (WhatsApp):</strong> Nama profil
+                    WhatsApp, nomor telepon (WhatsApp ID), dan isi pesan yang Anda
+                    kirimkan secara sukarela ketika menghubungi layanan pelanggan
+                    kami.
+                </li>
+                <li>
+                    <strong>Data Teknis & Atribusi Periklanan:</strong> Alamat IP
+                    (<em>IP Address</em>), jenis perangkat dan peramban (<em
+                        >User Agent</em
+                    >), <em>cookies</em>, serta parameter atribusi iklan seperti
+                    Meta Click ID (<code>fbc</code>, <code>fbp</code>, <code
+                        >ctwa_clid</code
+                    >) dan Google Click ID (<code>gclid</code>).
+                </li>
+                <li>
+                    <strong>Data Transaksi:</strong> Rincian produk/layanan yang dipesan
+                    serta nilai nominal transaksi (<em>Order Value</em>) apabila
+                    Anda melakukan pembelian.
+                </li>
+            </ul>
+
+            <h2>2. Penggunaan Informasi</h2>
+            <p>
+                Informasi yang kami kumpulkan digunakan semata-mata untuk tujuan
+                berikut:
+            </p>
+            <ul>
+                <li>
+                    Merespons pertanyaan, konsultasi, dan permintaan pesanan
+                    Anda melalui WhatsApp Business.
+                </li>
+                <li>
+                    Memproses transaksi, pengiriman produk, dan layanan purna
+                    jual.
+                </li>
+                <li>
+                    Mengukur efektivitas kampanye pemasaran dan periklanan
+                    digital melalui <strong>Meta Conversions API (CAPI)</strong> dan
+                    <strong>Google Ads Offline Conversion Tracking</strong> menggunakan
+                    metode penyandian satu arah (<em
+                        >SHA-256 cryptographic hashing</em
+                    >) sesuai standar keamanan privasi global.
+                </li>
+                <li>
+                    Meningkatkan kualitas tampilan dan performa situs web kami.
+                </li>
+            </ul>
+
+            <h2>3. Perlindungan & Penyimpanan Data</h2>
+            <p>
+                Kami menerapkan langkah-langkah keamanan teknis dan organisasi
+                yang ketat untuk mencegah akses tidak sah, perubahan, atau
+                penyalahgunaan data pribadi Anda. Data telepon yang dikirimkan
+                ke sistem analitik pihak ketiga (Meta Platforms, Inc. dan Google
+                LLC) selalu dienkripsi menggunakan algoritma <strong
+                    >SHA-256</strong
+                > sebelum ditransmisikan. Kami <strong>tidak pernah</strong> menjual,
+                menyewakan, atau memperdagangkan data pribadi Anda kepada pihak ketiga
+                mana pun.
+            </p>
+
+            <h2>4. Kebijakan Layanan Meta & WhatsApp Business API</h2>
+            <p>
+                Layanan komunikasi kami terintegrasi dengan <strong
+                    >WhatsApp Business Platform (Cloud API)</strong
+                > yang disediakan oleh Meta Platforms, Inc. Saat Anda menghubungi
+                kami melalui tombol WhatsApp di situs web atau melalui iklan Click-to-WhatsApp
+                (CTWA), Anda menyetujui bahwa komunikasi tersebut diproses melalui
+                infrastruktur resmi WhatsApp sesuai dengan Kebijakan Privasi WhatsApp.
+            </p>
+
+            <h2>
+                5. Hak Pengguna & Permintaan Penghapusan Data (Data Deletion
+                Instructions)
+            </h2>
+            <div class="highlight-box">
+                <p style="margin-bottom: 0.5rem;">
+                    <strong>Cara Meminta Penghapusan Data Anda:</strong>
+                </p>
+                <p style="margin-bottom: 0;">
+                    Sesuai dengan regulasi perlindungan data dan persyaratan
+                    platform Meta, Anda memiliki hak penuh untuk mengakses,
+                    memperbaiki, atau meminta penghapusan seluruh data pribadi
+                    dan riwayat kontak Anda dari sistem kami kapan saja. Untuk
+                    mengajukan penghapusan data (<em>Data Deletion Request</em
+                    >), silakan kirimkan pesan melalui email ke <strong
+                        ><a href={`mailto:${contactEmail}`}>{contactEmail}</a
+                        ></strong
+                    > dengan subjek <strong
+                        >"Permintaan Hapus Data Privasi"</strong
+                    > beserta nomor WhatsApp yang ingin dihapus. Tim kami akan menghapus
+                    seluruh data terkait secara permanen dalam waktu maksimal 3x24
+                    jam kerja.
+                </p>
+            </div>
+
+            <h2>6. Penggunaan Cookies</h2>
+            <p>
+                Situs web ini menggunakan <em>cookies</em> pihak pertama (<em
+                    >first-party cookies</em
+                >) untuk menyimpan preferensi sesi dan parameter referensi iklan
+                selama kunjungan Anda. Anda dapat mengatur peramban (<em
+                    >browser</em
+                >) Anda untuk menolak beberapa atau semua <em>cookies</em> kapan saja
+                melalui pengaturan peramban Anda.
+            </p>
+
+            <h2>7. Hubungi Kami</h2>
+            <p>
+                Apabila Anda memiliki pertanyaan, keluhan, atau permintaan
+                terkait Kebijakan Privasi ini, silakan hubungi kami melalui:
+            </p>
+            <ul>
+                <li><strong>Nama Bisnis:</strong> {businessName}</li>
+                <li>
+                    <strong>Situs Web:</strong>
+                    <a href={domainUrl}>{domainUrl}</a>
+                </li>
+                <li>
+                    <strong>Email Kontak:</strong>
+                    <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+                </li>
+            </ul>
+        </main>
+    </body>
+</html>
