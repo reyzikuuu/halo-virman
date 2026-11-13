@@ -10,9 +10,9 @@
 
 ## 2. Google Sheets Funnel & Tracking Architecture (STRICT PRODUCTION SCHEMA)
 
-Setiap pengembangan atau interaksi AI yang berhubungan dengan logging/tracking Google Sheets WAJIB mematuhi skema multi-tab dan posisi kolom A–M berikut:
+Setiap pengembangan atau interaksi AI yang berhubungan dengan logging/tracking Google Sheets WAJIB mematuhi skema multi-tab dan posisi kolom A–N berikut:
 
-### Tab 1: `Funnel_Tracker` (13 Kolom: A sampai M)
+### Tab 1: `Funnel_Tracker` (14 Kolom: A sampai N)
 - **Kolom A (1): `Timestamp`** - Waktu klik dibuat oleh pengunjung di website.
 - **Kolom B (2): `Ref Code`** - Kode referensi unik (misal: `#REFA1`) untuk pencocokan chat.
 - **Kolom C (3): `Phone`** - Nomor WhatsApp prospek (Format Plain Text `@`).
@@ -27,6 +27,7 @@ Setiap pengembangan atau interaksi AI yang berhubungan dengan logging/tracking G
 - **Kolom K (11): `Meta Log`** - Status/respons log pengiriman CAPI dari Meta Graph API.
 - **Kolom L (12): `GCLID`** - Google Click ID dari parameter URL `?gclid=`.
 - **Kolom M (13): `Google Log`** - Status/respons log pemrosesan dan ekspor konversi offline Google Ads.
+- **Kolom N (14): `CTWA CLID`** - Click-to-WhatsApp Click ID dari iklan Meta Direct WhatsApp (WABA / Coexistence).
 
 ### Tab 2: `Google_Ads_Export` (6 Kolom: A sampai F)
 Digunakan khusus untuk ekspor atau sinkronisasi offline conversion Google Ads (Enhanced Conversions for Leads):
